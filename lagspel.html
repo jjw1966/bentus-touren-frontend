@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Lagspel – Bentus Touren</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <img src="bentus-logo.png" alt="Bentus Touren logotyp">
+</header>
+
+<nav>
+    <a href="index.html">Dashboard</a>
+    <a href="spelare.html">Spelare</a>
+    <a href="lagspel.html">Lagspel</a>
+    <a href="tourstallning.html">Tourställning</a>
+    <a href="deltavlingar.html">Deltävlingar</a>
+</nav>
+
+<main>
+    <h1>Lagspel</h1>
+    <button onclick="loadData('lagspel', 'lagTable')">Uppdatera</button>
+
+    <table id="lagTable">
+        <thead></thead>
+        <tbody></tbody>
+    </table>
+</main>
+
+<script src="app.js"></script>
+<script>loadData('lagspel', 'lagTable');</script>
+
+</body>
+</html>
