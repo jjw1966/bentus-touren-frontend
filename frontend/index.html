@@ -2,39 +2,56 @@
 <html lang="sv">
 <head>
     <meta charset="UTF-8">
-    <title>Bentus Touren – Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bentus Golf Tour – Dashboard</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<header>
-    <img src="bentus-logo.png" alt="Bentus Touren logotyp">
-</header>
+    <!-- ============================
+         Navigation
+    ============================= -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="spelare.html">Spelare</a></li>
+            <li><a href="lagspel.html">Lagspel</a></li>
+            <li><a href="tourstallning.html">Tourställning</a></li>
+            <li><a href="deltavlingar.html">Deltävlingar</a></li>
+        </ul>
+    </nav>
 
-<nav>
-    <a href="index.html">Dashboard</a>
-    <a href="spelare.html">Spelare</a>
-    <a href="lagspel.html">Lagspel</a>
-    <a href="tourstallning.html">Tourställning</a>
-    <a href="deltavlingar.html">Deltävlingar</a>
-</nav>
 
-<main>
+    <!-- ============================
+         Dashboard
+    ============================= -->
     <h1>Dashboard</h1>
-    <button onclick="loadData('dashboard', 'dashTable')">Uppdatera</button>
 
-    <table id="dashTable">
+    <button onclick="loadData('dashboard', 'dashboardTable')">Uppdatera</button>
+
+    <table id="dashboardTable">
         <thead></thead>
         <tbody></tbody>
     </table>
-</main>
 
-<p id="updated" style="font-size:0.9em;color:#555;margin-top:20px;"></p>
-<script src="app.js"></script>
-<script>loadData('dashboard', 'dashTable');</script>
-<div id="statusbar">
-    <span class="status-icon">🕒</span>
-    <span id="updated">Hämtar uppdateringstid...</span>
+
+    <!-- ============================
+         Statusrad
+    ============================= -->
+    <div id="statusbar">
+        <span class="status-icon">🕒</span>
+        <span id="updated">Hämtar uppdateringstid...</span>
+    </div>
+
+
+    <!-- ============================
+         Script
+    ============================= -->
+    <script src="app.js"></script>
+
+</body>
+</html>    <span id="updated">Hämtar uppdateringstid...</span>
 </div>
 
 <script src="app.js"></script>
