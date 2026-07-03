@@ -18,10 +18,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Upload frontend folder
+      # ✅ Om dina filer nu ligger i rotmappen, ändra path till "."
+      - name: Upload site artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: frontend
+          path: .
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
