@@ -1,40 +1,128 @@
+/* ============================
+   Mörkt tema – grund
+============================ */
 body {
+    background: #121212;
+    color: #e0e0e0;
     font-family: Arial, sans-serif;
-    background: #f5f5f5;
     margin: 0;
     padding: 0;
 }
 
-header {
-    background: #000;
-    color: white;
-    text-align: center;
-    padding: 20px 0;
-}
-
-header img {
-    height: 80px;
-}
-
+/* ============================
+   Navigation
+============================ */
 nav {
-    background: #222;
-    padding: 10px;
-    text-align: center;
+    background: #1e1e1e;
+    padding: 20px 0;
+    border-bottom: 2px solid #333;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
 }
 
 nav a {
-    color: #fff;
+    color: #e0e0e0;
     text-decoration: none;
-    margin: 0 15px;
-    font-weight: bold;
+    font-size: 1.2em;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: 0.25s ease;
 }
 
 nav a:hover {
-    color: #00bfff;
+    background: #333;
+    color: #fff;
 }
 
-main {
-    padding: 20px;
+nav a.active {
+    background: #4caf50;
+    color: #fff;
+    font-weight: bold;
+}
+
+/* ============================
+   Logga
+============================ */
+.logo {
+    display: block;
+    margin: 25px auto;
+    width: 180px;
+}
+
+/* ============================
+   Rubriker
+============================ */
+h1 {
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* ============================
+   Tabeller
+============================ */
+table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: #1e1e1e;
+    color: #e0e0e0;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #333;
+}
+
+th {
+    background: #333;
+}
+
+/* ============================
+   Statusrad
+============================ */
+#statusbar {
+    margin: 30px auto;
+    padding: 10px 15px;
+    background: #1e1e1e;
+    border-radius: 6px;
+    font-size: 0.95em;
+    color: #ccc;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+}
+
+.status-icon {
+    font-size: 1.2em;
+}
+
+/* ============================
+   Knapp
+============================ */
+button {
+    display: block;
+    margin: 0 auto;
+    padding: 10px 20px;
+    background: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+button:hover {
+    background: #45a049;
+}    padding: 20px;
 }
 
 table {
