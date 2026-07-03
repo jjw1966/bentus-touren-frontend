@@ -1,270 +1,114 @@
-/* ============================
-   Mörkt tema – grund
-============================ */
+/* ================================
+   Grundstil
+================================ */
 body {
-    background: #121212;
-    color: #e0e0e0;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background: #f5f5f5;
+    color: #333;
 }
 
-/* ============================
-   Navigation – Desktop
-============================ */
+h1 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.logo {
+    display: block;
+    margin: 20px auto;
+    width: 180px;
+}
+
+/* ================================
+   Desktopmeny
+================================ */
 nav {
-    background: #1e1e1e;
-    padding: 20px 0;
-    border-bottom: 2px solid #333;
+    background: #004d40;
+    padding: 10px 0;
 }
 
 nav ul {
     list-style: none;
-    padding: 0;
-    margin: 0;
     display: flex;
     justify-content: center;
-    gap: 40px;
+    gap: 25px;
+    padding: 0;
+    margin: 0;
 }
 
 nav a {
-    color: #e0e0e0;
+    color: white;
     text-decoration: none;
-    font-size: 1.2em;
-    padding: 8px 12px;
-    border-radius: 6px;
-    transition: 0.25s ease;
-}
-
-nav a:hover {
-    background: #333;
-    color: #fff;
-}
-
-nav a.active {
-    background: #4caf50;
-    color: #fff;
     font-weight: bold;
 }
 
-/* ============================
-   Hamburger-meny (mobil)
-============================ */
-.hamburger {
-    display: none;
-    cursor: pointer;
-    font-size: 2em;
-    color: #e0e0e0;
-    padding: 10px 20px;
+nav a.active {
+    text-decoration: underline;
 }
 
+/* ================================
+   Hamburger (mobil)
+================================ */
+.hamburger {
+    display: none;
+    font-size: 32px;
+    padding: 15px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.hamburger.open {
+    transform: rotate(90deg);
+}
+
+/* ================================
+   Mobilmeny
+================================ */
 .mobile-menu {
     display: none;
     flex-direction: column;
-    background: #1e1e1e;
-    padding: 20px;
-    border-bottom: 2px solid #333;
+    background: #004d40;
+    padding: 15px;
+    gap: 15px;
+
+    /* Animation */
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.mobile-menu.show {
+    display: flex;
+    transform: translateY(0);
+    opacity: 1;
 }
 
 .mobile-menu a {
-    padding: 12px 0;
-    font-size: 1.3em;
-    text-align: center;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
 }
 
-/* ============================
-   Logga
-============================ */
-.logo {
-    display: block;
-    margin: 25px auto;
-    width: 180px;
+.mobile-menu a.active {
+    text-decoration: underline;
 }
 
-/* ============================
-   Rubriker
-============================ */
-h1 {
-    text-align: center;
-    margin-top: 10px;
-}
-
-/* ============================
+/* ================================
    Tabeller
-============================ */
+================================ */
 table {
     width: 90%;
     margin: 20px auto;
-    border-collapse: collapse;
-    background: #1e1e1e;
-    color: #e0e0e0;
-}
-
-th, td {
-    padding: 10px;
-    border: 1px solid #333;
-}
-
-th {
-    background: #333;
-}
-
-/* ============================
-   Statusrad
-============================ */
-#statusbar {
-    margin: 30px auto;
-    padding: 10px 15px;
-    background: #1e1e1e;
-    border-radius: 6px;
-    font-size: 0.95em;
-    color: #ccc;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: fit-content;
-}
-
-.status-icon {
-    font-size: 1.2em;
-}
-
-/* ============================
-   Knapp
-============================ */
-button {
-    display: block;
-    margin: 0 auto;
-    padding: 10px 20px;
-    background: #4caf50;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    font-size: 1em;
-    cursor: pointer;
-    transition: 0.25s ease;
-}
-
-button:hover {
-    background: #45a049;
-}
-
-/* ============================
-   Mobilanpassning
-============================ */
-@media (max-width: 800px) {
-
-    nav ul {
-        display: none; /* Dölj desktop-menyn */
-    }
-
-    .hamburger {
-        display: block; /* Visa hamburger-ikon */
-    }
-
-    .mobile-menu {
-        display: none; /* Dölj tills man klickar */
-    }
-
-    .mobile-menu.show {
-        display: flex; /* Visa när aktiv */
-    }
-}}
-
-nav a:hover {
-    background: #333;
-    color: #fff;
-}
-
-nav a.active {
-    background: #4caf50;
-    color: #fff;
-    font-weight: bold;
-}
-
-/* ============================
-   Logga
-============================ */
-.logo {
-    display: block;
-    margin: 25px auto;
-    width: 180px;
-}
-
-/* ============================
-   Rubriker
-============================ */
-h1 {
-    text-align: center;
-    margin-top: 10px;
-}
-
-/* ============================
-   Tabeller
-============================ */
-table {
-    width: 90%;
-    margin: 20px auto;
-    border-collapse: collapse;
-    background: #1e1e1e;
-    color: #e0e0e0;
-}
-
-th, td {
-    padding: 10px;
-    border: 1px solid #333;
-}
-
-th {
-    background: #333;
-}
-
-/* ============================
-   Statusrad
-============================ */
-#statusbar {
-    margin: 30px auto;
-    padding: 10px 15px;
-    background: #1e1e1e;
-    border-radius: 6px;
-    font-size: 0.95em;
-    color: #ccc;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: fit-content;
-}
-
-.status-icon {
-    font-size: 1.2em;
-}
-
-/* ============================
-   Knapp
-============================ */
-button {
-    display: block;
-    margin: 0 auto;
-    padding: 10px 20px;
-    background: #4caf50;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    font-size: 1em;
-    cursor: pointer;
-    transition: 0.25s ease;
-}
-
-button:hover {
-    background: #45a049;
-}    padding: 20px;
-}
-
-table {
-    width: 100%;
     border-collapse: collapse;
     background: white;
-    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+thead {
+    background: #004d40;
+    color: white;
 }
 
 th, td {
@@ -273,36 +117,69 @@ th, td {
     text-align: left;
 }
 
-th {
-    background: #333;
-    color: white;
+tr:nth-child(even) {
+    background: #f0f0f0;
 }
 
+/* ================================
+   Uppdatera-knapp
+================================ */
 button {
-    padding: 10px 20px;
-    background: #0078ff;
+    display: block;
+    margin: 20px auto;
+    padding: 12px 20px;
+    background: #00796b;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
+    font-size: 16px;
     cursor: pointer;
+    transition: background 0.2s ease;
 }
 
 button:hover {
-    background: #005fcc;
+    background: #005a4f;
 }
+
+/* ================================
+   Statusbar
+================================ */
 #statusbar {
-    margin-top: 30px;
-    padding: 10px 15px;
-    background: #f2f2f2;
+    width: 90%;
+    margin: 20px auto;
+    padding: 10px;
+    background: #e0f2f1;
+    border-left: 5px solid #00796b;
     border-radius: 6px;
-    font-size: 0.95em;
-    color: #444;
     display: flex;
     align-items: center;
-    gap: 8px;
-    width: fit-content;
+    gap: 10px;
 }
 
 .status-icon {
-    font-size: 1.2em;
+    font-size: 20px;
+}
+
+/* ================================
+   Mobilanpassning
+================================ */
+@media (max-width: 768px) {
+
+    nav {
+        display: none;
+    }
+
+    .hamburger {
+        display: block;
+        background: #004d40;
+        color: white;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    #statusbar {
+        width: 95%;
+    }
 }
