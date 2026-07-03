@@ -2,39 +2,43 @@
 <html lang="sv">
 <head>
     <meta charset="UTF-8">
-    <title>Deltävlingar – Bentus Touren</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deltävlingar – Bentus Golf Tour</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<header>
-    <img src="bentus-logo.png" alt="Bentus Touren logotyp">
-</header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="spelare.html">Spelare</a></li>
+            <li><a href="lagspel.html">Lagspel</a></li>
+            <li><a href="tourstallning.html">Tourställning</a></li>
+            <li><a href="deltavlingar.html" class="active">Deltävlingar</a></li>
+        </ul>
+    </nav>
 
-<nav>
-    <a href="index.html">Dashboard</a>
-    <a href="spelare.html">Spelare</a>
-    <a href="lagspel.html">Lagspel</a>
-    <a href="tourstallning.html">Tourställning</a>
-    <a href="deltavlingar.html">Deltävlingar</a>
-</nav>
+    <img src="bentus-logo.png" alt="Bentus Touren" class="logo">
 
-<main>
     <h1>Deltävlingar</h1>
+
     <button onclick="loadData('deltavlingar', 'deltavlingarTable')">Uppdatera</button>
 
     <table id="deltavlingarTable">
         <thead></thead>
         <tbody></tbody>
     </table>
-</main>
 
-<p id="updated" style="font-size:0.9em;color:#555;margin-top:20px;"></p>
-<script src="app.js"></script>
-<script>loadData('deltavlingar', 'deltavlingarTable');</script>
-<div id="statusbar">
-    <span class="status-icon">🕒</span>
-    <span id="updated">Hämtar uppdateringstid...</span>
+    <div id="statusbar">
+        <span class="status-icon">🕒</span>
+        <span id="updated">Hämtar uppdateringstid...</span>
+    </div>
+
+    <script src="app.js"></script>
+
+</body>
+</html>    <span id="updated">Hämtar uppdateringstid...</span>
 </div>
 
 <script src="app.js"></script>
