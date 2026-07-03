@@ -1,40 +1,73 @@
-// =========================================================
-// Ladda tabell-data från backend
-// =========================================================
+// ============================
+// 1. Mobilmeny – hamburger
+// ============================
+document.addEventListener("DOMContentLoaded", () => {
+    const hamburger = document.querySelector(".hamburger");
+    const mobileMenu = document.querySelector(".mobile-menu");
 
-async function loadData(endpoint, tableId) {
-    const url = `https://bentus-touren-backend.onrender.com/${endpoint}`;
-
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-
-        const tableHead = document.querySelector(`#${tableId} thead`);
-        const tableBody = document.querySelector(`#${tableId} tbody`);
-
-        tableHead.innerHTML = "";
-        tableBody.innerHTML = "";
-
-        if (!data || data.length === 0) {
-            tableBody.innerHTML = "<tr><td>Inga data hittades.</td></tr>";
-            return;
-        }
-
-        // Skapa tabellhuvud
-        const headers = Object.keys(data[0]);
-        let headRow = "<tr>";
-        headers.forEach(h => headRow += `<th>${h}</th>`);
-        headRow += "</tr>";
-        tableHead.innerHTML = headRow;
-
-        // Skapa tabellrader
-        data.forEach(row => {
-            let rowHtml = "<tr>";
-            headers.forEach(h => rowHtml += `<td>${row[h] ?? ""}</td>`);
-            rowHtml += "</tr>";
-            tableBody.innerHTML += rowHtml;
+    if (hamburger && mobileMenu) {
+        hamburger.addEventListener("click", () => {
+            mobileMenu.classList.toggle("show");
         });
+    }
 
+    // ============================
+    // 2. Datahämtning från backend
+    // ============================
+    const backendBaseUrl = "https://bentus-touren-backend.onrender.com"; // Render-backend
+
+    window.loadData = async function (endpoint, tableId) {
+        try {
+            const response = await fetch(`${backendBaseUrl}/${endpoint}`);
+            if (!response.ok) throw new Error("Fel vid hämtning av data");
+
+            const data = await response.json();
+            const table = document.getElementById(tableId);
+            const thead = table.querySelector("thead");
+            const tbody = table.querySelector("tbody");
+
+            // Rensa tabellen
+            thead.innerHTML = "";
+            tbody.innerHTML = "";
+
+            // Om data är tomt
+            if (!data || data.length === 0) {
+                tbody.innerHTML = "<tr><td>Ingen data hittades</td></tr>";
+                return;
+            }
+
+            // Skapa rubriker
+            const headers = Object.keys(data[0]);
+            const headerRow = document.createElement("tr");
+            headers.forEach(h => {
+                const th = document.createElement("th");
+                th.textContent = h;
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+
+            // Skapa rader
+            data.forEach(row => {
+                const tr = document.createElement("tr");
+                headers.forEach(h => {
+                    const td = document.createElement("td");
+                    td.textContent = row[h];
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            });
+
+            // Uppdatera statusrad
+            const updated = document.getElementById("updated");
+            const now = new Date().toLocaleString("sv-SE");
+            updated.textContent = `Senast uppdaterad från backend: ${now}`;
+
+        } catch (error) {
+            console.error("❌ Kunde inte hämta data:", error);
+            alert("Kunde inte hämta data från backend.");
+        }
+    };
+});
     } catch (error) {
         console.error("Fel vid hämtning:", error);
         alert("Kunde inte hämta data från backend.");
