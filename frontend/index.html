@@ -9,12 +9,9 @@
 
 <body>
 
-    <!-- ============================
-         Navigation
-    ============================= -->
     <nav>
         <ul>
-            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="index.html" class="active">Dashboard</a></li>
             <li><a href="spelare.html">Spelare</a></li>
             <li><a href="lagspel.html">Lagspel</a></li>
             <li><a href="tourstallning.html">Tourställning</a></li>
@@ -22,10 +19,8 @@
         </ul>
     </nav>
 
+    <img src="bentus-logo.png" alt="Bentus Touren" class="logo">
 
-    <!-- ============================
-         Dashboard
-    ============================= -->
     <h1>Dashboard</h1>
 
     <button onclick="loadData('dashboard', 'dashboardTable')">Uppdatera</button>
@@ -35,6 +30,15 @@
         <tbody></tbody>
     </table>
 
+    <div id="statusbar">
+        <span class="status-icon">🕒</span>
+        <span id="updated">Hämtar uppdateringstid...</span>
+    </div>
+
+    <script src="app.js"></script>
+
+</body>
+</html>
 
     <!-- ============================
          Statusrad
