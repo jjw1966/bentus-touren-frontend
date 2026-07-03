@@ -1,3 +1,4 @@
+console.log("✅ app.js laddades!");
 // ============================
 // 1. Mobilmeny – hamburger
 // ============================
