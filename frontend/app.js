@@ -69,4 +69,15 @@ async function showLastUpdated() {
         element.textContent = "Senast uppdaterad från backend: " + formatted;
 
     } catch (error) {
-        console.error("Fel vid hä
+        console.error("Fel vid hämtning av uppdateringstid:", error);
+        element.textContent = "Kunde inte hämta uppdateringstid.";
+    }
+}
+
+
+
+// =========================================================
+// Kör uppdateringsindikatorn automatiskt vid sidladdning
+// =========================================================
+
+document.addEventListener("DOMContentLoaded", showLastUpdated);
