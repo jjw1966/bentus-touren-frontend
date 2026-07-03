@@ -10,7 +10,7 @@ body {
 }
 
 /* ============================
-   Navigation
+   Navigation – Desktop
 ============================ */
 nav {
     background: #1e1e1e;
@@ -35,6 +35,141 @@ nav a {
     border-radius: 6px;
     transition: 0.25s ease;
 }
+
+nav a:hover {
+    background: #333;
+    color: #fff;
+}
+
+nav a.active {
+    background: #4caf50;
+    color: #fff;
+    font-weight: bold;
+}
+
+/* ============================
+   Hamburger-meny (mobil)
+============================ */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    font-size: 2em;
+    color: #e0e0e0;
+    padding: 10px 20px;
+}
+
+.mobile-menu {
+    display: none;
+    flex-direction: column;
+    background: #1e1e1e;
+    padding: 20px;
+    border-bottom: 2px solid #333;
+}
+
+.mobile-menu a {
+    padding: 12px 0;
+    font-size: 1.3em;
+    text-align: center;
+}
+
+/* ============================
+   Logga
+============================ */
+.logo {
+    display: block;
+    margin: 25px auto;
+    width: 180px;
+}
+
+/* ============================
+   Rubriker
+============================ */
+h1 {
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* ============================
+   Tabeller
+============================ */
+table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: #1e1e1e;
+    color: #e0e0e0;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #333;
+}
+
+th {
+    background: #333;
+}
+
+/* ============================
+   Statusrad
+============================ */
+#statusbar {
+    margin: 30px auto;
+    padding: 10px 15px;
+    background: #1e1e1e;
+    border-radius: 6px;
+    font-size: 0.95em;
+    color: #ccc;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+}
+
+.status-icon {
+    font-size: 1.2em;
+}
+
+/* ============================
+   Knapp
+============================ */
+button {
+    display: block;
+    margin: 0 auto;
+    padding: 10px 20px;
+    background: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+button:hover {
+    background: #45a049;
+}
+
+/* ============================
+   Mobilanpassning
+============================ */
+@media (max-width: 800px) {
+
+    nav ul {
+        display: none; /* Dölj desktop-menyn */
+    }
+
+    .hamburger {
+        display: block; /* Visa hamburger-ikon */
+    }
+
+    .mobile-menu {
+        display: none; /* Dölj tills man klickar */
+    }
+
+    .mobile-menu.show {
+        display: flex; /* Visa när aktiv */
+    }
+}}
 
 nav a:hover {
     background: #333;
