@@ -13,3 +13,25 @@
 
 <nav>
     <a href="index.html">Dashboard</a>
+    <a href="spelare.html">Spelare</a>
+    <a href="lagspel.html">Lagspel</a>
+    <a href="tourstallning.html">Tourställning</a>
+    <a href="deltavlingar.html">Deltävlingar</a>
+</nav>
+
+<main>
+    <h1>Deltävlingar</h1>
+    <button onclick="loadData('deltavlingar', 'deltavlingarTable')">Uppdatera</button>
+
+    <table id="deltavlingarTable">
+        <thead></thead>
+        <tbody></tbody>
+    </table>
+</main>
+
+<p id="updated" style="font-size:0.9em;color:#555;margin-top:20px;"></p>
+<script src="app.js"></script>
+<script>loadData('deltavlingar', 'deltavlingarTable');</script>
+
+</body>
+</html>
