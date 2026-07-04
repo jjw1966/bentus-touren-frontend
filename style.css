@@ -23,12 +23,12 @@ h1 {
 /* ================================
    Desktopmeny
 ================================ */
-nav {
+.desktop-menu {
     background: #004d40;
     padding: 10px 0;
 }
 
-nav ul {
+.desktop-menu ul {
     list-style: none;
     display: flex;
     justify-content: center;
@@ -37,13 +37,13 @@ nav ul {
     margin: 0;
 }
 
-nav a {
+.desktop-menu a {
     color: white;
     text-decoration: none;
     font-weight: bold;
 }
 
-nav a.active {
+.desktop-menu a.active {
     text-decoration: underline;
 }
 
@@ -55,6 +55,8 @@ nav a.active {
     font-size: 32px;
     padding: 15px;
     cursor: pointer;
+    background: #004d40;
+    color: white;
     transition: transform 0.3s ease;
 }
 
@@ -63,7 +65,7 @@ nav a.active {
 }
 
 /* ================================
-   Mobilmeny
+   Mobilmeny (slide animation)
 ================================ */
 .mobile-menu {
     display: none;
@@ -72,7 +74,6 @@ nav a.active {
     padding: 15px;
     gap: 15px;
 
-    /* Animation */
     transform: translateY(-20px);
     opacity: 0;
     transition: all 0.3s ease;
@@ -165,14 +166,12 @@ button:hover {
 ================================ */
 @media (max-width: 768px) {
 
-    nav {
+    .desktop-menu {
         display: none;
     }
 
     .hamburger {
         display: block;
-        background: #004d40;
-        color: white;
     }
 
     table {
