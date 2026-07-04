@@ -14,15 +14,17 @@ jobs:
     environment:
       name: github-pages
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      # ✅ Om dina filer nu ligger i rotmappen, ändra path till "."
+      # Upload the entire root folder as the site artifact
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v4
         with:
           path: .
 
+      # Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
