@@ -1,8 +1,8 @@
 // Backend-URL (måste vara HTTPS för GitHub Pages)
 const API_URL = "https://bentus-touren-backend.onrender.com";
 
-javascript
 const response = await fetch(${API_URL}/resultat, { cache: "no-store" });
+
 
 // -----------------------------
 // MENY (mobil + desktop)
