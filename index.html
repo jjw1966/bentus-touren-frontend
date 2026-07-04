@@ -1,33 +1,52 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bentus Touren</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bentus Touren</title>
 
-  <!-- Viktigt: relativa sökvägar utan / -->
-  <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
+
+    <!-- Logotyp -->
     <img src="bentus-logo.png" alt="Bentus Touren logotyp" class="logo">
-    <nav id="menu">
-      <a href="index.html">Start</a>
-      <a href="spelare.html">Spelare</a>
-      <a href="lagspel.html">Lagspel</a>
-      <a href="tourstallning.html">Tourställning</a>
-      <a href="deltavlingar.html">Deltävlingar</a>
+
+    <!-- Desktopmeny -->
+    <nav class="desktop-menu">
+        <ul>
+            <li><a href="index.html" class="active">Start</a></li>
+            <li><a href="spelare.html">Spelare</a></li>
+            <li><a href="lagspel.html">Lagspel</a></li>
+            <li><a href="tourstallning.html">Tourställning</a></li>
+            <li><a href="deltavlingar.html">Deltävlingar</a></li>
+        </ul>
     </nav>
-    <button id="menuButton">☰</button>
-  </header>
 
-  <main>
-    <h1>Bentus Touren</h1>
+    <!-- Hamburger-knapp (mobil) -->
+    <div class="hamburger" id="menuButton">☰</div>
+
+    <!-- Mobilmeny -->
+    <div class="mobile-menu" id="menu">
+        <a href="index.html" class="active">Start</a>
+        <a href="spelare.html">Spelare</a>
+        <a href="lagspel.html">Lagspel</a>
+        <a href="tourstallning.html">Tourställning</a>
+        <a href="deltavlingar.html">Deltävlingar</a>
+    </div>
+
+    <!-- Statusbar -->
+    <div id="statusbar">
+        <span class="status-icon">⏳</span>
+        <span id="status-text">Laddar data...</span>
+    </div>
+
+    <!-- Uppdatera-knapp -->
     <button id="updateButton">Uppdatera</button>
-    <div id="resultat"></div>
-  </main>
 
-  <!-- Viktigt: scriptet måste ligga sist och ha rätt sökväg -->
-  <script src="app.js" defer></script>
+    <!-- Resultat -->
+    <div id="resultat"></div>
+
+    <script src="app.js" defer></script>
 </body>
 </html>
