@@ -1,73 +1,62 @@
-// Backend-URL (måste vara HTTPS för GitHub Pages)
+// Backend-URL (HTTPS krävs för GitHub Pages)
 const API_URL = "https://bentus-touren-backend.onrender.com";
 
-const response = await fetch(${API_URL}/resultat, { cache: "no-store" });
-
-
-// -----------------------------
-// MENY (mobil + desktop)
-// -----------------------------
+// Element
 const menuButton = document.getElementById("menuButton");
 const menu = document.getElementById("menu");
-
-if (menuButton && menu) {
-    menuButton.addEventListener("click", () => {
-        menu.classList.toggle("open");
-    });
-}
-
-// -----------------------------
-// UPPDATERA-KNAPP
-// -----------------------------
 const updateButton = document.getElementById("updateButton");
 const resultatDiv = document.getElementById("resultat");
+const statusText = document.getElementById("status-text");
 
-if (updateButton && resultatDiv) {
-    updateButton.addEventListener("click", async () => {
-        resultatDiv.innerHTML = "<p>Hämtar data...</p>";
+// ================================
+// Mobilmeny
+// ================================
+menuButton.addEventListener("click", () => {
+    menu.classList.toggle("show");
+    menuButton.classList.toggle("open");
+});
 
-        try {
-            const response = await fetch(`${API_URL}/resultat`);
-            if (!response.ok) {
-                throw new Error("Serverfel: " + response.status);
-            }
-
-            const data = await response.json();
-
-            // Visa resultatet snyggt
-            resultatDiv.innerHTML = `
-                <h2>Senaste resultat</h2>
-                <pre>${JSON.stringify(data, null, 2)}</pre>
-            `;
-        } catch (error) {
-            resultatDiv.innerHTML = `
-                <p style="color:red;">
-                    Kunde inte hämta data.<br>
-                    Fel: ${error.message}
-                </p>
-            `;
-        }
-    });
-}
-
-// -----------------------------
-// AUTOLOAD VID START (valfritt)
-// -----------------------------
-async function loadInitialData() {
-    if (!resultatDiv) return;
+// ================================
+// Hämta resultat från backend
+// ================================
+async function loadData() {
+    statusText.textContent = "Hämtar data...";
 
     try {
-        const response = await fetch(`${API_URL}/resultat`);
+        const response = await fetch(`${API_URL}/resultat`, {
+            cache: "no-store",
+            mode: "cors"
+        });
+
+        if (!response.ok) {
+            throw new Error("Serverfel: " + response.status);
+        }
+
         const data = await response.json();
+
+        statusText.textContent = "Data uppdaterad ✔";
 
         resultatDiv.innerHTML = `
             <h2>Senaste resultat</h2>
             <pre>${JSON.stringify(data, null, 2)}</pre>
         `;
-    } catch {
-        resultatDiv.innerHTML = "<p>Kunde inte ladda data vid start.</p>";
+    } catch (error) {
+        statusText.textContent = "Kunde inte hämta data ❌";
+        resultatDiv.innerHTML = `
+            <p style="color:red;">
+                Fel vid hämtning:<br>
+                ${error.message}
+            </p>
+        `;
     }
 }
 
-// Kör autoload när sidan öppnas
-loadInitialData();
+// ================================
+// Uppdatera-knapp
+// ================================
+updateButton.addEventListener("click", loadData);
+
+// ================================
+// Ladda data vid start
+// ================================
+loadData();
