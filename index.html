@@ -1,50 +1,33 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bentus Golf Tour – Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bentus Touren</title>
+
+  <!-- Viktigt: relativa sökvägar utan / -->
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-<!-- deploy test -->
-    <div class="hamburger">☰</div>
-
-    <div class="mobile-menu">
-        <a href="index.html" class="active">Dashboard</a>
-        <a href="spelare.html">Spelare</a>
-        <a href="lagspel.html">Lagspel</a>
-        <a href="tourstallning.html">Tourställning</a>
-        <a href="deltavlingar.html">Deltävlingar</a>
-    </div>
-
-    <nav>
-        <ul>
-            <li><a href="index.html" class="active">Dashboard</a></li>
-            <li><a href="spelare.html">Spelare</a></li>
-            <li><a href="lagspel.html">Lagspel</a></li>
-            <li><a href="tourstallning.html">Tourställning</a></li>
-            <li><a href="deltavlingar.html">Deltävlingar</a></li>
-        </ul>
+  <header>
+    <img src="bentus-logo.png" alt="Bentus Touren logotyp" class="logo">
+    <nav id="menu">
+      <a href="index.html">Start</a>
+      <a href="spelare.html">Spelare</a>
+      <a href="lagspel.html">Lagspel</a>
+      <a href="tourstallning.html">Tourställning</a>
+      <a href="deltavlingar.html">Deltävlingar</a>
     </nav>
+    <button id="menuButton">☰</button>
+  </header>
 
-    <img src="bentus-logo.png" alt="Bentus Touren" class="logo">
+  <main>
+    <h1>Bentus Touren</h1>
+    <button id="updateButton">Uppdatera</button>
+    <div id="resultat"></div>
+  </main>
 
-    <h1>Dashboard</h1>
-
-    <button onclick="loadData('dashboard', 'dashboardTable')">Uppdatera</button>
-
-    <table id="dashboardTable">
-        <thead></thead>
-        <tbody></tbody>
-    </table>
-
-    <div id="statusbar">
-        <span class="status-icon">🕒</span>
-        <span id="updated">Hämtar uppdateringstid...</span>
-    </div>
-
-    <script src="app.js" defer></script>
+  <!-- Viktigt: scriptet måste ligga sist och ha rätt sökväg -->
+  <script src="app.js" defer></script>
 </body>
 </html>
