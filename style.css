@@ -138,7 +138,28 @@ td {
     color: white;
     cursor: pointer;
 }
+.tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: 10px auto;
+    width: 95%;
+}
 
+.tabs button {
+    padding: 8px 12px;
+    background: #333;
+    color: #e0e0e0;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.tabs button.active {
+    background: #4caf50;
+    color: white;
+}
 /* Dashboard */
 #dashboard {
     width: 95%;
