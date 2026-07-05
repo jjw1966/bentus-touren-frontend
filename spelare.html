@@ -3,16 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spelare – Bentus Touren</title>
+    <title>Spelare – Bentus Tour 2026</title>
+
     <link rel="stylesheet" href="style.css">
+
+    <!-- Diagram + PDF -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.1/dist/chartjs-plugin-zoom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
+
 <body>
 
-    <img src="bentus-logo.png" class="logo">
+    <img id="logo" src="bentus-logo-dark.png" class="logo">
 
     <nav class="desktop-menu">
         <ul>
-            <li><a href="index.html">Start</a></li>
+            <li><a href="index.html">Resultat</a></li>
             <li><a href="spelare.html" class="active">Spelare</a></li>
             <li><a href="lagspel.html">Lagspel</a></li>
             <li><a href="tourstallning.html">Tourställning</a></li>
@@ -20,24 +27,7 @@
         </ul>
     </nav>
 
-    <div class="hamburger" id="menuButton">☰</div>
-    <div class="mobile-menu" id="menu">
-        <a href="index.html">Start</a>
-        <a href="spelare.html" class="active">Spelare</a>
-        <a href="lagspel.html">Lagspel</a>
-        <a href="tourstallning.html">Tourställning</a>
-        <a href="deltavlingar.html">Deltävlingar</a>
-    </div>
-
-    <h1>Spelare</h1>
-
-    <div id="statusbar">
-        <span class="status-icon">⏳</span>
-        <span id="status-text">Laddar spelare...</span>
-    </div>
-
-    <div id="resultat"></div>
-
-    <script src="app.js" defer></script>
-</body>
-</html>
+    <div class="menu-actions">
+        <button onclick="loadData()">🔄 Uppdatera</button>
+        <button onclick="exportExcel()">⬇️ Excel</button>
+        <button onclick="exportPDF()">📄 PDF</button>
