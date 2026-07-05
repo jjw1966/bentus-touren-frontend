@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spelare – Bentus Tour 2026</title>
+    <title>Bentus Tour 2026 – Spelare</title>
 
     <link rel="stylesheet" href="style.css">
 
-    <!-- Diagram + PDF -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.1/dist/chartjs-plugin-zoom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -31,3 +30,14 @@
         <button onclick="loadData()">🔄 Uppdatera</button>
         <button onclick="exportExcel()">⬇️ Excel</button>
         <button onclick="exportPDF()">📄 PDF</button>
+        <button onclick="toggleTheme()">🌗 Tema</button>
+        <button onclick="resetZoom()">🔍 Återställ zoom</button>
+    </div>
+
+    <div id="status-text">Hämtar data...</div>
+
+    <div id="resultat"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
