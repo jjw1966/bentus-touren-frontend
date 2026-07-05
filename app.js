@@ -1,7 +1,5 @@
-// Backend-URL (HTTPS krävs för GitHub Pages)
 const API_URL = "https://bentus-touren-backend.onrender.com";
 
-// Element
 const menuButton = document.getElementById("menuButton");
 const menu = document.getElementById("menu");
 const updateButton = document.getElementById("updateButton");
@@ -17,7 +15,31 @@ menuButton.addEventListener("click", () => {
 });
 
 // ================================
-// Hämta resultat från backend
+// Tabellgenerator
+// ================================
+function createTable(data) {
+    if (!Array.isArray(data)) {
+        return `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    }
+
+    let html = "<table><thead><tr>";
+
+    const keys = Object.keys(data[0]);
+    keys.forEach(k => html += `<th>${k}</th>`);
+    html += "</tr></thead><tbody>";
+
+    data.forEach(row => {
+        html += "<tr>";
+        keys.forEach(k => html += `<td>${row[k]}</td>`);
+        html += "</tr>";
+    });
+
+    html += "</tbody></table>";
+    return html;
+}
+
+// ================================
+// Hämta data
 // ================================
 async function loadData() {
     statusText.textContent = "Hämtar data...";
@@ -28,35 +50,18 @@ async function loadData() {
             mode: "cors"
         });
 
-        if (!response.ok) {
-            throw new Error("Serverfel: " + response.status);
-        }
+        if (!response.ok) throw new Error("Serverfel: " + response.status);
 
         const data = await response.json();
 
         statusText.textContent = "Data uppdaterad ✔";
+        resultatDiv.innerHTML = createTable(data);
 
-        resultatDiv.innerHTML = `
-            <h2>Senaste resultat</h2>
-            <pre>${JSON.stringify(data, null, 2)}</pre>
-        `;
     } catch (error) {
         statusText.textContent = "Kunde inte hämta data ❌";
-        resultatDiv.innerHTML = `
-            <p style="color:red;">
-                Fel vid hämtning:<br>
-                ${error.message}
-            </p>
-        `;
+        resultatDiv.innerHTML = `<p style="color:red;">${error.message}</p>`;
     }
 }
 
-// ================================
-// Uppdatera-knapp
-// ================================
 updateButton.addEventListener("click", loadData);
-
-// ================================
-// Ladda data vid start
-// ================================
 loadData();
