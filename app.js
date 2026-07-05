@@ -279,9 +279,15 @@ async function loadData() {
 
         statusText.textContent = "Data uppdaterad ✔";
 
-        renderTable(data);
-        renderChart(data);
-        renderDashboard(data);
+        // Om vi är på deltävlingar.html
+if (window.location.pathname.includes("deltavlingar")) {
+    // currentData är ett objekt med alla deltävlingar
+    selectTab(selectedTab);
+} else {
+    renderTable(data);
+    renderChart(data);
+    renderDashboard(data);
+}
 
     } catch (error) {
         statusText.textContent = "Kunde inte hämta data ❌";
