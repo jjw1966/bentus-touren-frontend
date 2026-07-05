@@ -4,13 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bentus Touren</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Logotyp -->
-    <img src="bentus-logo.png" alt="Bentus Touren logotyp" class="logo">
+    <img src="bentus-logo.png" class="logo">
 
     <!-- Desktopmeny -->
     <nav class="desktop-menu">
@@ -23,10 +21,8 @@
         </ul>
     </nav>
 
-    <!-- Hamburger-knapp (mobil) -->
-    <div class="hamburger" id="menuButton">☰</div>
-
     <!-- Mobilmeny -->
+    <div class="hamburger" id="menuButton">☰</div>
     <div class="mobile-menu" id="menu">
         <a href="index.html" class="active">Start</a>
         <a href="spelare.html">Spelare</a>
@@ -35,16 +31,15 @@
         <a href="deltavlingar.html">Deltävlingar</a>
     </div>
 
-    <!-- Statusbar -->
+    <h1>Resultat</h1>
+
     <div id="statusbar">
         <span class="status-icon">⏳</span>
         <span id="status-text">Laddar data...</span>
     </div>
 
-    <!-- Uppdatera-knapp -->
     <button id="updateButton">Uppdatera</button>
 
-    <!-- Resultat -->
     <div id="resultat"></div>
 
     <script src="app.js" defer></script>
