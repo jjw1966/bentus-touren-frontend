@@ -9,6 +9,23 @@ let chart;
 // ================================
 // Tema-switch + logga
 // ================================
+let selectedTab = "Deltävling 1";
+
+function selectTab(name) {
+    selectedTab = name;
+
+    // Markera aktiv tab
+    document.querySelectorAll(".tabs button").forEach(btn => {
+        btn.classList.toggle("active", btn.textContent === name);
+    });
+
+    // Rendera tabell + diagram
+    if (currentData[name]) {
+        renderTable(currentData[name]);
+        renderChart(currentData[name]);
+    }
+}
+
 function updateLogo() {
     const logo = document.getElementById("logo");
     if (document.body.classList.contains("light")) {
