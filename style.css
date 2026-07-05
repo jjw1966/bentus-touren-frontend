@@ -1,6 +1,3 @@
-/* ================================
-   Mörkt grundtema
-================================ */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -9,15 +6,33 @@ body {
     color: #e0e0e0;
 }
 
+/* Logga */
 .logo {
+    width: 90px;
+    margin: 5px auto;
     display: block;
-    margin: 20px auto;
-    width: 180px;
 }
 
-/* ================================
-   Desktopmeny
-================================ */
+/* Ljust tema */
+body.light {
+    background: #f5f5f5;
+    color: #222;
+}
+
+body.light table {
+    background: #fff;
+    color: #222;
+}
+
+body.light .desktop-menu {
+    background: #e0e0e0;
+}
+
+body.light .menu-actions button {
+    background: #1976d2;
+}
+
+/* Meny */
 .desktop-menu {
     background: #1e1e1e;
     padding: 10px 0;
@@ -43,60 +58,31 @@ body {
     color: #4caf50;
 }
 
-/* ================================
-   Hamburger (mobil)
-================================ */
-.hamburger {
-    display: none;
-    font-size: 32px;
-    padding: 15px;
-    cursor: pointer;
-    background: #1e1e1e;
-    color: #e0e0e0;
-    transition: transform 0.3s ease;
-}
-
-.hamburger.open {
-    transform: rotate(90deg);
-}
-
-/* ================================
-   Mobilmeny (slide animation)
-================================ */
-.mobile-menu {
-    display: none;
-    flex-direction: column;
-    background: #1e1e1e;
-    padding: 15px;
-    gap: 15px;
-
-    transform: translateY(-20px);
-    opacity: 0;
-    transition: all 0.3s ease;
-}
-
-.mobile-menu.show {
+/* Meny-knappar */
+.menu-actions {
     display: flex;
-    transform: translateY(0);
-    opacity: 1;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px;
 }
 
-.mobile-menu a {
-    color: #e0e0e0;
-    text-decoration: none;
-    font-size: 18px;
+.menu-actions button {
+    padding: 8px 12px;
+    background: #4caf50;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
 }
 
-.mobile-menu a.active {
-    color: #4caf50;
+.menu-actions button:hover {
+    background: #3e8e41;
 }
 
-/* ================================
-   Tabeller
-================================ */
+/* Tabeller */
 table {
-    width: 90%;
-    margin: 20px auto;
+    width: 95%;
+    margin: 10px auto;
     border-collapse: collapse;
     background: #1e1e1e;
     color: #e0e0e0;
@@ -109,72 +95,65 @@ thead {
     color: #fff;
 }
 
-th, td {
+th {
+    padding: 10px;
+    border-bottom: 1px solid #333;
+    cursor: pointer;
+}
+
+td {
     padding: 10px;
     border-bottom: 1px solid #333;
 }
 
-tr:nth-child(even) {
-    background: #2a2a2a;
+/* Poängfärger */
+.gold { color: #ffd700; font-weight: bold; }
+.silver { color: #c0c0c0; font-weight: bold; }
+.bronze { color: #cd7f32; font-weight: bold; }
+
+/* Sökfält */
+#searchBox {
+    width: 95%;
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #333;
+    background: #1e1e1e;
+    color: #e0e0e0;
 }
 
-/* ================================
-   Uppdatera-knapp
-================================ */
-button {
-    display: block;
-    margin: 20px auto;
-    padding: 12px 20px;
+/* Paginering */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px;
+}
+
+.pagination button {
+    padding: 10px 15px;
     background: #4caf50;
-    color: white;
     border: none;
     border-radius: 6px;
-    font-size: 16px;
+    color: white;
     cursor: pointer;
-    transition: background 0.2s ease;
 }
 
-button:hover {
-    background: #3e8e41;
-}
-
-/* ================================
-   Statusbar
-================================ */
-#statusbar {
-    width: 90%;
-    margin: 20px auto;
-    padding: 10px;
+/* Dashboard */
+#dashboard {
+    width: 95%;
+    margin: 10px auto;
     background: #1e1e1e;
-    border-left: 5px solid #4caf50;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    padding: 15px;
+    border-radius: 8px;
 }
 
-.status-icon {
-    font-size: 20px;
+body.light #dashboard {
+    background: #fff;
 }
 
-/* ================================
-   Mobilanpassning
-================================ */
-@media (max-width: 768px) {
-
-    .desktop-menu {
-        display: none;
-    }
-
-    .hamburger {
-        display: block;
-    }
-
-    table {
-        width: 100%;
-    }
-
-    #statusbar {
-        width: 95%;
-    }
+/* Diagram */
+#chartContainer {
+    width: 95%;
+    margin: 20px auto;
 }
