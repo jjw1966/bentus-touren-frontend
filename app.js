@@ -1,284 +1,80 @@
-const API_URL = "https://bentus-touren-backend.onrender.com";
+// Bentus Touren Frontend – app.js
+// Version 2026-07-06
 
-let currentData = [];
-let sortDirection = 1;
-let page = 1;
-const rowsPerPage = 10;
-let chart;
-let selectedTab = "Deltävling 1";
+// 🟩 Backend URL
+const backendBaseUrl = "https://bentus-touren-backend.onrender.com";
 
-/* ================================
-   Tema + logga
-================================ */
-function updateLogo() {
-    const logo = document.getElementById("logo");
-    if (!logo) return;
-
-    if (document.body.classList.contains("light")) {
-        logo.src = "bentus-logo-light.png";
-    } else {
-        logo.src = "bentus-logo-dark.png";
-    }
+// 🟦 Hjälpfunktion för att hämta data
+async function fetchData(endpoint) {
+  try {
+    const response = await fetch(`${backendBaseUrl}/${endpoint}`);
+    if (!response.ok) throw new Error(`Fel vid hämtning av ${endpoint}`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    document.getElementById("content").innerHTML = `<p style="color:red;">Kunde inte hämta ${endpoint}</p>`;
+  }
 }
 
-function toggleTheme() {
-    document.body.classList.toggle("light");
-    updateLogo();
+// 🟩 Funktion för att visa data i tabell
+function renderTable(data, containerId) {
+  const container = document.getElementById(containerId);
+  if (!data || data.length === 0) {
+    container.innerHTML = "<p>Ingen data hittades.</p>";
+    return;
+  }
+
+  const keys = Object.keys(data[0]);
+  let html = "<table><thead><tr>";
+  keys.forEach(k => html += `<th>${k}</th>`);
+  html += "</tr></thead><tbody>";
+
+  data.forEach(row => {
+    html += "<tr>";
+    keys.forEach(k => html += `<td>${row[k]}</td>`);
+    html += "</tr>";
+  });
+
+  html += "</tbody></table>";
+  container.innerHTML = html;
 }
 
-/* ================================
-   Endpoint-detektion
-================================ */
-function detectEndpoint() {
-    const pageName = window.location.pathname.split("/").pop();
-
-    if (pageName === "" || pageName === "index.html") return "resultat";
-    if (pageName === "spelare.html") return "spelare";
-    if (pageName === "lagspel.html") return "lagspel";
-    if (pageName === "tourstallning.html") return "tourstallning";
-    if (pageName === "deltavlingar.html") return "deltavlingar";
-
-    return "resultat";
+// 🟦 Funktioner för varje flik
+async function loadResultat() {
+  const data = await fetchData("resultat");
+  renderTable(data, "content");
 }
 
-/* ================================
-   Tabbar (Deltävlingar)
-================================ */
-function selectTab(name) {
-    selectedTab = name;
-
-    const buttons = document.querySelectorAll(".tabs button");
-    buttons.forEach(btn => {
-        btn.classList.toggle("active", btn.textContent === name);
-    });
-
-    if (currentData[name]) {
-        renderTable(currentData[name]);
-        renderChart(currentData[name]);
-    }
+async function loadTourstallning() {
+  const data = await fetchData("tourstallning");
+  renderTable(data, "content");
 }
 
-/* ================================
-   Sortering
-================================ */
-function sortTable(column) {
-    currentData.sort((a, b) => {
-        if (a[column] < b[column]) return -1 * sortDirection;
-        if (a[column] > b[column]) return 1 * sortDirection;
-        return 0;
-    });
-
-    sortDirection *= -1;
-    renderTable(currentData);
-    renderChart(currentData);
+async function loadLagspel() {
+  const data = await fetchData("lagspel");
+  renderTable(data, "content");
 }
 
-/* ================================
-   Filtrering
-================================ */
-function filterTable(query) {
-    const filtered = currentData.filter(row =>
-        JSON.stringify(row).toLowerCase().includes(query.toLowerCase())
-    );
-    renderTable(filtered);
-    renderChart(filtered);
+async function loadDeltavlingar() {
+  const data = await fetchData("deltavlingar");
+  renderTable(data, "content");
 }
 
-/* ================================
-   Paginering
-================================ */
-function paginate(data) {
-    const start = (page - 1) * rowsPerPage;
-    return data.slice(start, start + rowsPerPage);
-}
+// 🟩 Koppla knappar till funktioner
+document.getElementById("btnResultat").addEventListener("click", loadResultat);
+document.getElementById("btnTourstallning").addEventListener("click", loadTourstallning);
+document.getElementById("btnLagspel").addEventListener("click", loadLagspel);
+document.getElementById("btnDeltavlingar").addEventListener("click", loadDeltavlingar);
 
-/* ================================
-   Tabellrendering
-================================ */
-function renderTable(data) {
-    const resultatDiv = document.getElementById("resultat");
+// 🟦 Ladda standardvy
+window.onload = loadResultat;
 
-    if (!Array.isArray(data) || data.length === 0) {
-        resultatDiv.innerHTML = "<p>Ingen data</p>";
-        return;
-    }
-
-    const keys = Object.keys(data[0]);
-
-    let html = `
-        <input id="searchBox" placeholder="Sök..." oninput="filterTable(this.value)">
-        <table>
-            <thead><tr>
-    `;
-
-    keys.forEach(k => {
-        html += `<th onclick="sortTable('${k}')">${k}</th>`;
-    });
-
-    html += "</tr></thead><tbody>";
-
-    const pageData = paginate(data);
-
-    pageData.forEach(row => {
-        html += "<tr>";
-        keys.forEach(k => {
-            const val = row[k];
-
-            if (k.toLowerCase().includes("poäng")) {
-                const sorted = [...data].sort((a, b) => b.Poäng - a.Poäng);
-                const rank = sorted.findIndex(r => r.Poäng === val);
-
-                let cls = "";
-                if (rank === 0) cls = "gold";
-                else if (rank === 1) cls = "silver";
-                else if (rank === 2) cls = "bronze";
-
-                html += `<td class="${cls}">${val}</td>`;
-            } else {
-                html += `<td>${val}</td>`;
-            }
-        });
-        html += "</tr>";
-    });
-
-    html += "</tbody></table>";
-
-    html += `
-        <div class="pagination">
-            <button onclick="page = Math.max(1, page - 1); renderTable(data)">Föregående</button>
-            <button onclick="page = page + 1; renderTable(data)">Nästa</button>
-        </div>
-    `;
-
-    resultatDiv.innerHTML = html;
-}
-
-/* ================================
-   Dashboard (endast index.html)
-================================ */
-function renderDashboard(data) {
-    const dashboard = document.getElementById("dashboard");
-    if (!dashboard) return;
-
-    const antal = data.length;
-    const snitt = Math.round(data.reduce((a, b) => a + (b.Poäng || 0), 0) / antal);
-    const top3 = [...data].sort((a, b) => b.Poäng - a.Poäng).slice(0, 3);
-
-    dashboard.innerHTML = `
-        <h2>Sammanfattning</h2>
-        <p><strong>Antal spelare:</strong> ${antal}</p>
-        <p><strong>Snittpoäng:</strong> ${snitt}</p>
-        <p><strong>Topp 3:</strong></p>
-        <ul>
-            ${top3.map(s => `<li>${s.Spelare}: ${s.Poäng} poäng</li>`).join("")}
-        </ul>
-    `;
-}
-
-/* ================================
-   Interaktivt diagram
-================================ */
-function renderChart(data) {
-    if (chart) chart.destroy();
-
-    const container = document.createElement("div");
-    container.id = "chartContainer";
-    document.getElementById("resultat").appendChild(container);
-
-    const canvas = document.createElement("canvas");
-    container.appendChild(canvas);
-
-    const labels = data.map(row => row.Spelare || row.Namn || row.Lag);
-    const values = data.map(row => row.Poäng || row.Placering || 0);
-
-    chart = new Chart(canvas, {
-        type: "bar",
-        data: {
-            labels,
-            datasets: [{
-                label: "Poäng",
-                data: values,
-                backgroundColor: values.map((v, i) =>
-                    i < 3 ? "#ff9800" : "#4caf50"
-                )
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { display: true },
-                tooltip: { enabled: true },
-                zoom: {
-                    zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: "x" },
-                    pan: { enabled: true, mode: "x" }
-                }
-            },
-            onClick: (evt, item) => {
-                if (item.length > 0) {
-                    const index = item[0].index;
-                    alert(`Du klickade på: ${labels[index]} (${values[index]} poäng)`);
-                }
-            }
-        }
-    });
-}
-
-function resetZoom() {
-    if (chart) chart.resetZoom();
-}
-
-/* ================================
-   Export
-================================ */
-function exportExcel() {
-    const blob = new Blob([JSON.stringify(currentData, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "bentus_export.json";
-    a.click();
-}
-
-function exportPDF() {
-    const pdf = new jsPDF();
-    pdf.text("Bentus Tour Export", 10, 10);
-
-    let y = 20;
-    currentData.forEach(row => {
-        pdf.text(JSON.stringify(row), 10, y);
-        y += 10;
-    });
-
-    pdf.save("bentus_export.pdf");
-}
-
-/* ================================
-   Live-uppdatering
-================================ */
-setInterval(loadData, 60000);
-
-/* ================================
-   Hämta data
-================================ */
-async function loadData() {
-    const endpoint = detectEndpoint();
-    const statusText = document.getElementById("status-text");
-
-    statusText.textContent = `Hämtar ${endpoint}...`;
-
-    try {
-        const response = await fetch(`${API_URL}/${endpoint}`, {
-            cache: "no-store",
-            mode: "cors"
-        });
-
-        if (!response.ok) throw new Error("Serverfel: " + response.status);
-
-        const data = await response.json();
-        currentData = data;
-
-        statusText.textContent = "Data uppdaterad ✔";
-
-        if (window.location.pathname.includes("deltavlingar")) {
-            select
+// 🟩 Tema-knapp (ljus/mörk)
+document.getElementById("btnTema").addEventListener("click", () => {
+  document.body.classList.toggle("light");
+  const logo = document.getElementById("logo");
+  logo.src = document.body.classList.contains("light")
+    ? "bentus-logo-light.png"
+    : "bentus-logo-dark.png";
+});
