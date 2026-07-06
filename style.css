@@ -1,180 +1,142 @@
+/* ============================
+   Grundinställningar
+   ============================ */
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: #121212;
-    color: #e0e0e0;
-}
-
-/* Logga */
-.logo {
-    width: 90px;
-    margin: 5px auto;
-    display: block;
+    font-family: Arial, sans-serif;
+    background-color: #111;
+    color: #eee;
+    text-align: center;
 }
 
 /* Ljust tema */
 body.light {
-    background: #f5f5f5;
+    background-color: #f5f5f5;
     color: #222;
 }
 
-body.light table {
-    background: #fff;
-    color: #222;
+/* ============================
+   Logga
+   ============================ */
+.logo {
+    width: 180px;
+    margin: 20px auto;
+    display: block;
 }
 
-body.light .desktop-menu {
-    background: #e0e0e0;
+/* ============================
+   Navigationsmeny
+   ============================ */
+nav {
+    margin-bottom: 20px;
 }
 
-body.light .menu-actions button {
-    background: #1976d2;
-}
-
-/* Meny */
-.desktop-menu {
-    background: #1e1e1e;
-    padding: 10px 0;
-    border-bottom: 2px solid #333;
-}
-
-.desktop-menu ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    padding: 0;
-    margin: 0;
-}
-
-.desktop-menu a {
-    color: #e0e0e0;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.desktop-menu a.active {
-    color: #4caf50;
-}
-
-/* Meny-knappar */
-.menu-actions {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin: 10px;
-}
-
-.menu-actions button {
-    padding: 8px 12px;
-    background: #4caf50;
+nav button {
+    background-color: #333;
+    color: #eee;
     border: none;
+    padding: 12px 18px;
+    margin: 5px;
     border-radius: 6px;
-    color: white;
+    font-size: 16px;
     cursor: pointer;
+    transition: 0.2s;
 }
 
-.menu-actions button:hover {
-    background: #3e8e41;
+nav button:hover {
+    background-color: #555;
 }
 
-/* Tabeller */
-table {
+/* Ljust tema knappar */
+body.light nav button {
+    background-color: #ddd;
+    color: #222;
+}
+
+body.light nav button:hover {
+    background-color: #ccc;
+}
+
+/* ============================
+   Rubriker
+   ============================ */
+h1 {
+    margin-top: 10px;
+    font-size: 28px;
+}
+
+/* ============================
+   Innehållscontainer
+   ============================ */
+#content {
     width: 95%;
-    margin: 10px auto;
-    border-collapse: collapse;
-    background: #1e1e1e;
-    color: #e0e0e0;
-    border-radius: 8px;
-    overflow: hidden;
+    max-width: 900px;
+    margin: 20px auto;
+    text-align: left;
 }
 
-thead {
-    background: #333;
-    color: #fff;
+/* ============================
+   Tabeller
+   ============================ */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #444;
 }
 
 th {
-    padding: 10px;
-    border-bottom: 1px solid #333;
-    cursor: pointer;
+    background-color: #222;
+    color: #fff;
 }
 
-td {
-    padding: 10px;
-    border-bottom: 1px solid #333;
+body.light th {
+    background-color: #ddd;
+    color: #222;
 }
 
-/* Poängfärger */
-.gold { color: #ffd700; font-weight: bold; }
-.silver { color: #c0c0c0; font-weight: bold; }
-.bronze { color: #cd7f32; font-weight: bold; }
+tr:nth-child(even) {
+    background-color: #1a1a1a;
+}
 
-/* Sökfält */
-#searchBox {
+body.light tr:nth-child(even) {
+    background-color: #f0f0f0;
+}
+
+/* ============================
+   Diagram (Chart.js)
+   ============================ */
+#chartCanvas {
     width: 95%;
-    margin: 10px auto;
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #333;
-    background: #1e1e1e;
-    color: #e0e0e0;
+    max-width: 900px;
+    margin: 30px auto;
 }
 
-/* Paginering */
-.pagination {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin: 20px;
-}
+/* ============================
+   Responsivitet
+   ============================ */
+@media (max-width: 600px) {
+    nav button {
+        width: 90%;
+        margin: 8px auto;
+        display: block;
+    }
 
-.pagination button {
-    padding: 10px 15px;
-    background: #4caf50;
-    border: none;
-    border-radius: 6px;
-    color: white;
-    cursor: pointer;
-}
-.tabs {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-    margin: 10px auto;
-    width: 95%;
-}
+    table {
+        font-size: 14px;
+    }
 
-.tabs button {
-    padding: 8px 12px;
-    background: #333;
-    color: #e0e0e0;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
+    th, td {
+        padding: 8px;
+    }
 
-.tabs button.active {
-    background: #4caf50;
-    color: white;
-}
-/* Dashboard */
-#dashboard {
-    width: 95%;
-    margin: 10px auto;
-    background: #1e1e1e;
-    padding: 15px;
-    border-radius: 8px;
-}
-
-body.light #dashboard {
-    background: #fff;
-}
-
-/* Diagram */
-#chartContainer {
-    width: 95%;
-    margin: 20px auto;
+    h1 {
+        font-size: 22px;
+    }
 }
