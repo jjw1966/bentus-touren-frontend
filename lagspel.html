@@ -3,41 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bentus Tour 2026 – Lagspel</title>
-
+    <title>Lagspel – Bentus Touren</title>
     <link rel="stylesheet" href="style.css">
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.1/dist/chartjs-plugin-zoom.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 
 <body>
-
     <img id="logo" src="bentus-logo-dark.png" class="logo">
 
-    <nav class="desktop-menu">
-        <ul>
-            <li><a href="index.html">Resultat</a></li>
-            <li><a href="spelare.html">Spelare</a></li>
-            <li><a href="lagspel.html" class="active">Lagspel</a></li>
-            <li><a href="tourstallning.html">Tourställning</a></li>
-            <li><a href="deltavlingar.html">Deltävlingar</a></li>
-        </ul>
+    <nav>
+        <button id="btnResultat">Resultat</button>
+        <button id="btnTourstallning">Tourställning</button>
+        <button id="btnLagspel">Lagspel</button>
+        <button id="btnDeltavlingar">Deltävlingar</button>
+        <button id="btnTema">Tema</button>
     </nav>
 
-    <div class="menu-actions">
-        <button onclick="loadData()">🔄 Uppdatera</button>
-        <button onclick="exportExcel()">⬇️ Excel</button>
-        <button onclick="exportPDF()">📄 PDF</button>
-        <button onclick="toggleTheme()">🌗 Tema</button>
-        <button onclick="resetZoom()">🔍 Återställ zoom</button>
-    </div>
+    <h1>Lagspel</h1>
 
-    <div id="status-text">Hämtar data...</div>
+    <div id="content"></div>
 
-    <div id="resultat"></div>
-
-    <script src="app.js"></script>
+    <script src="app.js" defer></script>
 </body>
 </html>
