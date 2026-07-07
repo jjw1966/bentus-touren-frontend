@@ -5,26 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deltävlingar – Bentus Touren</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
-    <img id="logo" src="bentus-logo-dark.png" class="logo">
 
     <nav>
-        <button id="btnResultat">Resultat</button>
-        <button id="btnTourstallning">Tourställning</button>
-        <button id="btnLagspel">Lagspel</button>
-        <button id="btnDeltavlingar">Deltävlingar</button>
-        <button id="btnTema">Tema</button>
+        <ul>
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="spelare.html">Spelare</a></li>
+            <li><a href="lagspel.html">Lagspel</a></li>
+            <li><a href="tourstallning.html">Tourställning</a></li>
+            <li><a href="deltavlingar.html">Deltävlingar</a></li>
+        </ul>
     </nav>
 
     <h1>Deltävlingar</h1>
 
-    <div id="content"></div>
+    <button onclick="loadData('deltavlingar', 'deltavlingarContainer')">Uppdatera</button>
 
-    <canvas id="chartCanvas"></canvas>
+    <div id="deltavlingarContainer"></div>
 
-    <script src="app.js" defer></script>
+    <div id="statusbar">
+        <span class="status-icon">🕒</span>
+        <span id="updated">Hämtar uppdateringstid...</span>
+    </div>
+
+    <script src="app.js"></script>
+
 </body>
 </html>
