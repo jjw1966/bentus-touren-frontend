@@ -2,50 +2,32 @@
 <html lang="sv">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tourställning – Bentus Touren</title>
+    <title>Tourställning</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <nav>
+<nav>
     <div class="nav-left">
-        <img id="logo" src="bentus-logo-light.png" alt="Bentus Touren logo">
-        <span class="nav-title">Bentus Touren</span>
+        <img id="logo" src="assets/logo.png">
+        <span class="nav-title">Tourställning</span>
     </div>
-
-    <div class="hamburger">☰</div>
 
     <ul class="nav-links">
         <li><a href="index.html">Dashboard</a></li>
-        <li><a href="spelare.html">Spelare</a></li>
-        <li><a href="lagspel.html">Lagspel</a></li>
         <li><a href="tourstallning.html">Tourställning</a></li>
-        <li><a href="deltavlingar.html">Deltävlingar</a></li>
+        <li><a href="events.html">Deltävlingar</a></li>
     </ul>
 
-    <div class="mobile-menu">
-        <a href="index.html">Dashboard</a>
-        <a href="spelare.html">Spelare</a>
-        <a href="lagspel.html">Lagspel</a>
-        <a href="tourstallning.html">Tourställning</a>
-        <a href="deltavlingar.html">Deltävlingar</a>
-    </div>
+    <div class="hamburger">☰</div>
 </nav>
 
-    <h1>Tourställning</h1>
-
-    <button onclick="loadData('tourstallning', 'tourContainer')">Uppdatera</button>
-
+<main>
     <div id="tourContainer"></div>
+</main>
 
-    <div id="statusbar">
-        <span class="status-icon">🕒</span>
-        <span id="updated">Hämtar uppdateringstid...</span>
-    </div>
+<footer>© Bentus Touren 2026</footer>
 
-    <script src="app.js"></script>
-
+<script src="app.js"></script>
 </body>
 </html>
