@@ -1,33 +1,35 @@
 // ================================
 // Hamburger-meny
 // ================================
-const hamburger = document.createElement("div");
-hamburger.classList.add("hamburger");
-hamburger.textContent = "☰";
-document.querySelector("nav").appendChild(hamburger);
-
-const mobileMenu = document.createElement("div");
-mobileMenu.classList.add("mobile-menu");
-mobileMenu.innerHTML = `
-    <a href="index.html">Dashboard</a>
-    <a href="spelare.html">Spelare</a>
-    <a href="lagspel.html">Lagspel</a>
-    <a href="tourstallning.html">Tourställning</a>
-    <a href="deltavlingar.html">Deltävlingar</a>
-`;
-document.querySelector("nav").appendChild(mobileMenu);
+const hamburger = document.querySelector(".hamburger");
+const mobileMenu = document.querySelector(".mobile-menu");
 
 hamburger.addEventListener("click", () => {
     mobileMenu.classList.toggle("show");
 });
 
 // ================================
-// Tema-växling (auto baserat på system)
-const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-if (prefersDark) document.body.classList.add("dark");
+// Tema-växling + loggobyte
+// ================================
+const logo = document.getElementById("logo");
+const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+function updateLogo(e) {
+    if (e.matches) {
+        document.body.classList.add("dark");
+        logo.src = "bentus-logo-dark.png";
+    } else {
+        document.body.classList.remove("dark");
+        logo.src = "bentus-logo-light.png";
+    }
+}
+
+updateLogo(prefersDark);
+prefersDark.addEventListener("change", updateLogo);
 
 // ================================
 // Data-laddning
+// ================================
 async function loadData(endpoint, containerId) {
     const url = `https://bentus-touren-backend-1.onrender.com/${endpoint}`;
     const response = await fetch(url);
@@ -54,10 +56,13 @@ async function loadData(endpoint, containerId) {
     if (data["LD-liga"]) container.innerHTML += createTable("Längsta drive", data["LD-liga"]);
     if (data.Deltävlingsvinster) container.innerHTML += createTable("Deltävlingsvinster", data.Deltävlingsvinster);
 
-    document.getElementById("updated").textContent = "Senast uppdaterad: " + new Date().toLocaleString();
+    document.getElementById("updated").textContent =
+        "Senast uppdaterad: " + new Date().toLocaleString();
 }
 
+// ================================
 // Ladda dashboard automatiskt
+// ================================
 if (document.getElementById("dashboardContainer")) {
     loadData("dashboard", "dashboardContainer");
 }
