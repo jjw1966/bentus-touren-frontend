@@ -8,20 +8,29 @@
 </head>
 
 <body>
-    <img id="logo" src="bentus-logo-dark.png" class="logo">
 
     <nav>
-        <button id="btnResultat">Resultat</button>
-        <button id="btnTourstallning">Tourställning</button>
-        <button id="btnLagspel">Lagspel</button>
-        <button id="btnDeltavlingar">Deltävlingar</button>
-        <button id="btnTema">Tema</button>
+        <ul>
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="spelare.html">Spelare</a></li>
+            <li><a href="lagspel.html">Lagspel</a></li>
+            <li><a href="tourstallning.html">Tourställning</a></li>
+            <li><a href="deltavlingar.html">Deltävlingar</a></li>
+        </ul>
     </nav>
 
     <h1>Lagspel</h1>
 
-    <div id="content"></div>
+    <button onclick="loadData('lagspel', 'lagspelContainer')">Uppdatera</button>
 
-    <script src="app.js" defer></script>
+    <div id="lagspelContainer"></div>
+
+    <div id="statusbar">
+        <span class="status-icon">🕒</span>
+        <span id="updated">Hämtar uppdateringstid...</span>
+    </div>
+
+    <script src="app.js"></script>
+
 </body>
 </html>
