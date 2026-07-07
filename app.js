@@ -1,15 +1,43 @@
 const API = "https://bentus-touren-backend-1.onrender.com";
 
-document.addEventListener("DOMContentLoaded", () => {
-    if (document.getElementById("dashboardContainer")) loadDashboard();
-    if (document.getElementById("eventList")) loadEvents();
-    if (document.getElementById("eventContainer")) loadEvent();
-    if (document.getElementById("tourContainer")) loadTour();
-});
+// ------------------------------
+// Tema-hantering
+// ------------------------------
 
-// ---------------------------------------------------------
+function applyTheme(theme) {
+    document.body.classList.toggle("dark", theme === "dark");
+
+    const logo = document.getElementById("logo");
+    if (logo) {
+        logo.src = theme === "dark"
+            ? "bentus-logo-dark.png"
+            : "bentus-logo-light.png";
+    }
+}
+
+function initTheme() {
+    const savedTheme = localStorage.getItem("theme") || "light";
+    applyTheme(savedTheme);
+
+    const toggle = document.getElementById("themeToggle");
+    if (toggle) {
+        toggle.addEventListener("click", () => {
+            const newTheme = document.body.classList.contains("dark")
+                ? "light"
+                : "dark";
+
+            localStorage.setItem("theme", newTheme);
+            applyTheme(newTheme);
+        });
+    }
+}
+
+document.addEventListener("DOMContentLoaded", initTheme);
+
+// ------------------------------
 // Dashboard
-// ---------------------------------------------------------
+// ------------------------------
+
 async function loadDashboard() {
     const res = await fetch(`${API}/dashboard`);
     const data = await res.json();
@@ -39,9 +67,10 @@ async function loadDashboard() {
     container.innerHTML += table("Landskamper", data.Lagresultat);
 }
 
-// ---------------------------------------------------------
+// ------------------------------
 // Lista deltävlingar
-// ---------------------------------------------------------
+// ------------------------------
+
 async function loadEvents() {
     const res = await fetch(`${API}/events`);
     const events = await res.json();
@@ -54,9 +83,10 @@ async function loadEvents() {
     });
 }
 
-// ---------------------------------------------------------
+// ------------------------------
 // En deltävling
-// ---------------------------------------------------------
+// ------------------------------
+
 async function loadEvent() {
     const params = new URLSearchParams(window.location.search);
     const name = params.get("name");
@@ -92,9 +122,10 @@ async function loadEvent() {
     }
 }
 
-// ---------------------------------------------------------
+// ------------------------------
 // Tourställning
-// ---------------------------------------------------------
+// ------------------------------
+
 async function loadTour() {
     const res = await fetch(`${API}/tourstallning`);
     const rows = await res.json();
