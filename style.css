@@ -1,222 +1,79 @@
-/* ================================
-   Färger och tema
-================================ */
-:root {
-    --bg: #f5f5f5;
-    --text: #333;
-    --nav-bg: #004d40;
-    --accent: #00796b;
-    --card-bg: #ffffff;
-    --footer-bg: #00352e;
-}
-
-body.dark {
-    --bg: #121212;
-    --text: #f5f5f5;
-    --nav-bg: #1e1e1e;
-    --accent: #4db6ac;
-    --card-bg: #1e1e1e;
-    --footer-bg: #111;
-}
-
-/* ================================
-   Grundlayout
-================================ */
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
 body {
-    display: flex;
-    flex-direction: column;
-    background: var(--bg);
-    color: var(--text);
+    margin: 0;
     font-family: Arial, sans-serif;
-    transition: background 0.3s, color 0.3s;
+    background: #f5f5f5;
 }
 
-main {
-    flex: 1; /* Gör att footern trycks ned */
-}
-
-h1 {
-    text-align: center;
-    margin-top: 20px;
-}
-
-/* ================================
-   Navigation
-================================ */
 nav {
-    background: var(--nav-bg);
+    background: #222;
     color: white;
     padding: 10px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: relative;
 }
 
-.nav-left {
+nav .nav-left {
     display: flex;
     align-items: center;
-    gap: 10px;
 }
 
-.nav-left img {
+nav #logo {
     height: 40px;
-    transition: opacity 0.3s;
+    margin-right: 10px;
 }
 
-.nav-title {
-    font-weight: bold;
-    font-size: 1.2em;
-}
-
-.nav-links {
+nav .nav-links {
     list-style: none;
     display: flex;
-    gap: 25px;
-    margin: 0;
-    padding: 0;
+    gap: 20px;
 }
 
-.nav-links a {
+nav .nav-links a {
     color: white;
     text-decoration: none;
-    font-weight: bold;
 }
 
-.nav-links a:hover {
-    text-decoration: underline;
-}
-
-/* ================================
-   Hamburger-meny
-================================ */
 .hamburger {
     display: none;
-    font-size: 30px;
+    font-size: 28px;
     cursor: pointer;
 }
 
-.mobile-menu {
-    display: none;
-    flex-direction: column;
-    background: var(--nav-bg);
-    position: absolute;
-    top: 60px;
-    right: 0;
-    width: 220px;
-    padding: 15px;
-    border-radius: 0 0 0 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-    animation: slideIn 0.3s ease forwards;
-}
-
-.mobile-menu a {
-    color: white;
-    text-decoration: none;
-    padding: 12px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.2);
-}
-
-.mobile-menu.show {
-    display: flex;
-}
-
-@keyframes slideIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* ================================
-   Tabeller
-================================ */
-.section {
-    width: 90%;
-    margin: 20px auto;
-    background: var(--card-bg);
+main {
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
-.section h2 {
-    margin-top: 0;
-    border-bottom: 2px solid var(--accent);
-    padding-bottom: 10px;
+.section {
+    margin-bottom: 40px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 15px;
-}
-
-thead {
-    background: var(--accent);
-    color: white;
+    background: white;
 }
 
 th, td {
     padding: 10px;
-    border-bottom: 1px solid #ddd;
+    border: 1px solid #ccc;
 }
 
-tr:nth-child(even) {
-    background: rgba(0,0,0,0.05);
-}
-
-/* ================================
-   Statusbar
-================================ */
-#statusbar {
-    width: 90%;
-    margin: 20px auto;
-    padding: 10px;
-    background: #e0f2f1;
-    border-left: 5px solid var(--accent);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-/* ================================
-   Sticky Footer
-================================ */
 footer {
-    background: var(--footer-bg);
+    background: #222;
     color: white;
+    padding: 10px;
     text-align: center;
-    padding: 20px;
-    font-size: 0.9em;
-    margin-top: 20px;
+    position: sticky;
+    bottom: 0;
+    width: 100%;
 }
 
-footer a {
-    color: var(--accent);
-    text-decoration: none;
-}
-
-/* ================================
-   Mobilanpassning
-================================ */
-@media (max-width: 768px) {
+@media (max-width: 800px) {
     .nav-links {
         display: none;
     }
     .hamburger {
         display: block;
-        color: white;
-    }
-    table {
-        font-size: 0.9em;
-    }
-    #statusbar {
-        width: 95%;
     }
 }
