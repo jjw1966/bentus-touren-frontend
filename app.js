@@ -1,124 +1,63 @@
-// Bentus Touren Frontend – app.js
-// Version 2026-07-06
+// ================================
+// Hamburger-meny
+// ================================
+const hamburger = document.createElement("div");
+hamburger.classList.add("hamburger");
+hamburger.textContent = "☰";
+document.querySelector("nav").appendChild(hamburger);
 
-const backendBaseUrl = "https://bentus-touren-backend.onrender.com";
+const mobileMenu = document.createElement("div");
+mobileMenu.classList.add("mobile-menu");
+mobileMenu.innerHTML = `
+    <a href="index.html">Dashboard</a>
+    <a href="spelare.html">Spelare</a>
+    <a href="lagspel.html">Lagspel</a>
+    <a href="tourstallning.html">Tourställning</a>
+    <a href="deltavlingar.html">Deltävlingar</a>
+`;
+document.querySelector("nav").appendChild(mobileMenu);
 
-// =========================
-// Hämta data
-// =========================
-async function fetchData(endpoint) {
-    try {
-        const response = await fetch(`${backendBaseUrl}/${endpoint}`);
-        if (!response.ok) throw new Error(`Fel vid hämtning av ${endpoint}`);
-        return await response.json();
-    } catch (error) {
-        console.error(error);
-        document.getElementById("content").innerHTML =
-            `<p style="color:red;">Kunde inte hämta ${endpoint}</p>`;
-    }
-}
+hamburger.addEventListener("click", () => {
+    mobileMenu.classList.toggle("show");
+});
 
-// =========================
-// Rendera tabell
-// =========================
-function renderTable(data, containerId) {
+// ================================
+// Tema-växling (auto baserat på system)
+const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+if (prefersDark) document.body.classList.add("dark");
+
+// ================================
+// Data-laddning
+async function loadData(endpoint, containerId) {
+    const url = `https://bentus-touren-backend-1.onrender.com/${endpoint}`;
+    const response = await fetch(url);
+    const data = await response.json();
     const container = document.getElementById(containerId);
+    container.innerHTML = "";
 
-    if (!data || data.length === 0) {
-        container.innerHTML = "<p>Ingen data hittades.</p>";
-        return;
+    function createTable(title, rows) {
+        let html = `<div class="section"><h2>${title}</h2><table><thead><tr>`;
+        Object.keys(rows[0]).forEach(col => html += `<th>${col}</th>`);
+        html += "</tr></thead><tbody>";
+        rows.forEach(row => {
+            html += "<tr>";
+            Object.values(row).forEach(val => html += `<td>${val}</td>`);
+            html += "</tr>";
+        });
+        html += "</tbody></table></div>";
+        return html;
     }
 
-    const keys = Object.keys(data[0]);
-    let html = "<table><thead><tr>";
+    if (data.Topp5) container.innerHTML += createTable("Topp 5", data.Topp5);
+    if (data.Spelade_rundor) container.innerHTML += createTable("Spelade rundor", data.Spelade_rundor);
+    if (data["NH-liga"]) container.innerHTML += createTable("Närmast hål", data["NH-liga"]);
+    if (data["LD-liga"]) container.innerHTML += createTable("Längsta drive", data["LD-liga"]);
+    if (data.Deltävlingsvinster) container.innerHTML += createTable("Deltävlingsvinster", data.Deltävlingsvinster);
 
-    keys.forEach(k => html += `<th>${k}</th>`);
-    html += "</tr></thead><tbody>";
-
-    data.forEach(row => {
-        html += "<tr>";
-        keys.forEach(k => html += `<td>${row[k]}</td>`);
-        html += "</tr>";
-    });
-
-    html += "</tbody></table>";
-    container.innerHTML = html;
+    document.getElementById("updated").textContent = "Senast uppdaterad: " + new Date().toLocaleString();
 }
 
-// =========================
-// Diagram (Chart.js)
-// =========================
-let chartInstance = null;
-
-function renderChart(data) {
-    const ctx = document.getElementById("chartCanvas").getContext("2d");
-
-    const labels = data.map(d => d.namn);
-    const scores = data.map(d => d.poang);
-
-    if (chartInstance) chartInstance.destroy();
-
-    chartInstance = new Chart(ctx, {
-        type: "bar",
-        data: {
-            labels,
-            datasets: [{
-                label: "Poäng",
-                data: scores,
-                backgroundColor: "#4CAF50"
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: { beginAtZero: true }
-            }
-        }
-    });
+// Ladda dashboard automatiskt
+if (document.getElementById("dashboardContainer")) {
+    loadData("dashboard", "dashboardContainer");
 }
-
-// =========================
-// Laddningsfunktioner
-// =========================
-async function loadResultat() {
-    const data = await fetchData("resultat");
-    renderTable(data, "content");
-}
-
-async function loadTourstallning() {
-    const data = await fetchData("tourstallning");
-    renderTable(data, "content");
-}
-
-async function loadLagspel() {
-    const data = await fetchData("lagspel");
-    renderTable(data, "content");
-}
-
-async function loadDeltavlingar() {
-    const data = await fetchData("deltavlingar");
-    renderTable(data, "content");
-    renderChart(data);
-}
-
-// =========================
-// Tema (ljus/mörk)
-// =========================
-function toggleTheme() {
-    document.body.classList.toggle("light");
-    const logo = document.getElementById("logo");
-    logo.src = document.body.classList.contains("light")
-        ? "bentus-logo-light.png"
-        : "bentus-logo-dark.png";
-}
-
-// =========================
-// Event listeners
-// =========================
-window.onload = loadResultat;
-
-document.getElementById("btnResultat").onclick = loadResultat;
-document.getElementById("btnTourstallning").onclick = loadTourstallning;
-document.getElementById("btnLagspel").onclick = loadLagspel;
-document.getElementById("btnDeltavlingar").onclick = loadDeltavlingar;
-document.getElementById("btnTema").onclick = toggleTheme;
