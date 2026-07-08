@@ -11,10 +11,11 @@ export default function Dashboard() {
   useEffect(() => {
     async function load() {
       try {
-        const [eventData, tourData] = await Promise.all([
-          getEvents(),
-          getTour()
-        ]);
+        const eventData = await getEvents();
+        const tourData = await getTour();
+
+        console.log("Events:", eventData);
+        console.log("Tour:", tourData);
 
         setEvents(eventData || []);
         setTour(tourData || []);
