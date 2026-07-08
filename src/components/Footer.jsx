@@ -1,7 +1,9 @@
 export default function Footer() {
+  const year = new Date().getFullYear();
+
   return (
-    <footer>
-      <p>Bentus Touren © 2024–2026</p>
+    <footer className="footer">
+      <p>Bentus Touren © {year}</p>
     </footer>
   );
 }
