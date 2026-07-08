@@ -3,7 +3,7 @@ import { getEvents, getTour } from "../api";
 import { Link } from "react-router-dom";
 
 export default function Dashboard() {
-  console.log("Frontend version: 1.0.2");
+  console.log("Frontend version: 1.0.3");
 
   const [events, setEvents] = useState(null);
   const [tour, setTour] = useState(null);
@@ -13,18 +13,16 @@ export default function Dashboard() {
   useEffect(() => {
     async function load() {
       try {
-        console.log("Hämtar events...");
         const eventData = await getEvents();
-        console.log("Events-data:", eventData);
-
-        console.log("Hämtar tour...");
         const tourData = await getTour();
-        console.log("Tour-data:", tourData);
+
+        console.log("Events:", eventData);
+        console.log("Tour:", tourData);
 
         setEvents(eventData);
         setTour(tourData);
       } catch (err) {
-        console.error("Dashboard-fel:", err);
+        console.error("Dashboard error:", err);
         setError("Kunde inte hämta dashboard-data.");
       } finally {
         setLoading(false);
@@ -41,8 +39,8 @@ export default function Dashboard() {
         <h1>Fel</h1>
         <p>{error}</p>
 
-        <div style={{ marginTop: "20px", padding: "10px", background: "#fee", borderRadius: "8px" }}>
-          <p style={{ color: "red" }}>Frontend version: 1.0.2</p>
+        <div style={{ background: "#fee", padding: "10px", marginTop: "20px" }}>
+          <p style={{ color: "red" }}>Frontend version: 1.0.3</p>
           <p><strong>Events:</strong> {JSON.stringify(events)}</p>
           <p><strong>Tour:</strong> {JSON.stringify(tour)}</p>
         </div>
