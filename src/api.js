@@ -1,26 +1,29 @@
-const BASE = "https://bentus-touren-backend-1-cfci.onrender.com";
+const BASE_URL = "https://bentus-touren-backend-1-cfci.onrender.com";
 
-export async function getEvents() {
-  const r = await fetch(`${BASE}/events`);
-  return r.json();
+async function fetchJSON(url) {
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error(`Fetch failed: ${res.status}`);
+  }
+  return await res.json(); // 🟩 viktigt!
 }
 
 export async function getEvent(name) {
-  const r = await fetch(`${BASE}/event/${name}`);
-  return r.json();
+  return await fetchJSON(`${BASE_URL}/event/${name}`);
 }
 
 export async function getNH(name) {
-  const r = await fetch(`${BASE}/event/${name}/nh`);
-  return r.json();
+  return await fetchJSON(`${BASE_URL}/event/${name}/nh`);
 }
 
 export async function getLD(name) {
-  const r = await fetch(`${BASE}/event/${name}/ld`);
-  return r.json();
+  return await fetchJSON(`${BASE_URL}/event/${name}/ld`);
+}
+
+export async function getEvents() {
+  return await fetchJSON(`${BASE_URL}/events`);
 }
 
 export async function getTour() {
-  const r = await fetch(`${BASE}/tour`);
-  return r.json();
+  return await fetchJSON(`${BASE_URL}/tour`);
 }
