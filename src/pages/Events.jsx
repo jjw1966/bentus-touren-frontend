@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { getEvents } from "../api";
+import { Link } from "react-router-dom";
 
 export default function Events() {
-  const [events, setEvents] = useState(null);
+  const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -11,8 +11,9 @@ export default function Events() {
     async function load() {
       try {
         const data = await getEvents();
-        setEvents(data);
+        setEvents(data || []);
       } catch (err) {
+        console.error(err);
         setError("Kunde inte hämta deltävlingar.");
       }
       setLoading(false);
@@ -26,13 +27,18 @@ export default function Events() {
   return (
     <div className="page">
       <h1>Deltävlingar</h1>
-      <ul>
-        {events.map((e, i) => (
-          <li key={i}>
-            <Link to={`/event/${encodeURIComponent(e)}`}>{e}</Link>
-          </li>
-        ))}
-      </ul>
+
+      {events.length === 0 ? (
+        <p>Inga deltävlingar hittades.</p>
+      ) : (
+        <ul>
+          {events.map((name, i) => (
+            <li key={i}>
+              <Link to={`/event/${name}`}>{name}</Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
