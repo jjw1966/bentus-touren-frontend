@@ -1,10 +1,9 @@
-const BASE_URL = "https://bentus-touren-backend-1-cfci.onrender.com";
+const BASE_URL = "/api";
 
 async function fetchJSON(url) {
   try {
     const res = await fetch(url, {
       method: "GET",
-      mode: "cors", // 🟩 viktigt för Render‑frontend
       headers: {
         "Content-Type": "application/json",
       },
@@ -15,7 +14,7 @@ async function fetchJSON(url) {
     }
 
     const data = await res.json();
-    console.log("FetchJSON:", url, data); // 🟩 loggar direkt i konsolen
+    console.log("FetchJSON:", url, data);
     return data;
   } catch (err) {
     console.error("FetchJSON‑fel:", err);
