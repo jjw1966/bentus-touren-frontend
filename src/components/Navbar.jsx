@@ -1,30 +1,20 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
+import "./Navbar.css";
 
 export default function Navbar() {
-  const [dark, setDark] = useState(false);
-  const logo = dark ? "bentus-logo-dark.png" : "bentus-logo-light.png";
-
-  function toggleTheme() {
-    setDark(!dark);
-    document.body.className = dark ? "light" : "dark";
-  }
-
   return (
     <nav className="navbar">
-      <Link to="/">
-        <img src={`/${logo}`} alt="Bentus Touren logo" className="logo" />
-      </Link>
+      <div className="nav-inner">
+        <div className="nav-left">
+          <Link to="/" className="nav-logo">Bentus Touren</Link>
+        </div>
 
-      <ul className="menu">
-        <li><Link to="/">Dashboard</Link></li>
-        <li><Link to="/events">Deltävlingar</Link></li>
-        <li><Link to="/tour">Tourställning</Link></li>
-      </ul>
-
-      <button onClick={toggleTheme} className="theme-toggle">
-        {dark ? "☀️" : "🌙"}
-      </button>
+        <div className="nav-right">
+          <Link to="/" className="nav-item">Dashboard</Link>
+          <Link to="/events" className="nav-item">Deltävlingar</Link>
+          <Link to="/tour" className="nav-item">Tourställning</Link>
+        </div>
+      </div>
     </nav>
   );
 }
