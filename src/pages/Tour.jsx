@@ -1,59 +1,52 @@
 import { useEffect, useState } from "react";
-import { getEvents, getEvent } from "../api";
+import { getTour } from "../api";
 
-export default function Tourstallning() {
-  const [rows, setRows] = useState([]);
+export default function Tour() {
+  const [tour, setTour] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function load() {
-      const events = await getEvents();
-
-      const realEvents = events.filter(e =>
-        !e.startsWith("Deltävling")
-      );
-
-      const all = [];
-
-      for (const ev of realEvents) {
-        const data = await getEvent(ev);
-        if (data.main.length > 0) {
-          all.push({ name: ev, results: data.main });
-        }
+      try {
+        const data = await getTour();
+        setTour(data || []);
+      } catch (err) {
+        console.error(err);
+        setError("Kunde inte hämta tourställningen.");
       }
-
-      setRows(all);
+      setLoading(false);
     }
-
     load();
   }, []);
+
+  if (loading) return <div className="page"><p>Laddar...</p></div>;
+  if (error) return <div className="page"><p>{error}</p></div>;
 
   return (
     <div className="page">
       <h1>Tourställning</h1>
 
-      {rows.map((ev, i) => (
-        <section key={i}>
-          <h2>{ev.name}</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Plac</th>
-                <th>Namn</th>
-                <th>Poäng</th>
+      {tour.length === 0 ? (
+        <p>Ingen tourdata.</p>
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th>Spelare</th>
+              <th>Totalpoäng</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tour.map((row, i) => (
+              <tr key={i}>
+                <td>{row.Spelare}</td>
+                <td>{row.Totalpoäng}</td>
               </tr>
-            </thead>
-            <tbody>
-              {ev.results.map((r, j) => (
-                <tr key={j}>
-                  <td>{r.Placering}</td>
-                  <td>{r.Namn}</td>
-                  <td>{r.Poäng}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </section>
-      ))}
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }
