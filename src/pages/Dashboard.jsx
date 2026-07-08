@@ -3,7 +3,6 @@ import { getEvents, getTour } from "../api";
 import { Link } from "react-router-dom";
 
 export default function Dashboard() {
-  // 🟩 Versionstaggen — synlig i konsolen
   console.log("Frontend version: 1.0.2");
 
   const [events, setEvents] = useState(null);
@@ -42,7 +41,6 @@ export default function Dashboard() {
         <h1>Fel</h1>
         <p>{error}</p>
 
-        {/* 🟥 Synlig felsida så du kan se vad som händer på mobil */}
         <div style={{ marginTop: "20px", padding: "10px", background: "#fee", borderRadius: "8px" }}>
           <p style={{ color: "red" }}>Frontend version: 1.0.2</p>
           <p><strong>Events:</strong> {JSON.stringify(events)}</p>
