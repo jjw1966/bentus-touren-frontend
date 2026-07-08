@@ -25,28 +25,3 @@ export default function Tour() {
 
   return (
     <div className="page">
-      <h1>Tourställning</h1>
-
-      {tour.length === 0 ? (
-        <p>Ingen tourdata.</p>
-      ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Spelare</th>
-              <th>Totalpoäng</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tour.map((row, i) => (
-              <tr key={i}>
-                <td>{row.Spelare}</td>
-                <td>{row.Totalpoäng}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
-  );
-}
