@@ -1,11 +1,26 @@
 const BASE_URL = "https://bentus-touren-backend-1-cfci.onrender.com";
 
 async function fetchJSON(url) {
-  const res = await fetch(url);
-  if (!res.ok) {
-    throw new Error(`Fetch failed: ${res.status}`);
+  try {
+    const res = await fetch(url, {
+      method: "GET",
+      mode: "cors", // 🟩 viktigt för Render‑frontend
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error(`Fetch failed: ${res.status}`);
+    }
+
+    const data = await res.json();
+    console.log("FetchJSON:", url, data); // 🟩 loggar direkt i konsolen
+    return data;
+  } catch (err) {
+    console.error("FetchJSON‑fel:", err);
+    throw err;
   }
-  return await res.json(); // 🟩 viktigt!
 }
 
 export async function getEvent(name) {
