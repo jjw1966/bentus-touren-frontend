@@ -11,16 +11,19 @@ export default function Dashboard() {
   useEffect(() => {
     async function load() {
       try {
-        const eventData = await getEvents();
-        const tourData = await getTour();
+        const [eventData, tourData] = await Promise.all([
+          getEvents(),
+          getTour()
+        ]);
 
         setEvents(eventData || []);
         setTour(tourData || []);
       } catch (err) {
-        console.error(err);
-        setError("Kunde inte hämta dashboard-data.");
+        console.error("Dashboard‑fel:", err);
+        setError("Kunde inte hämta dashboard‑data.");
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
     load();
   }, []);
@@ -34,7 +37,7 @@ export default function Dashboard() {
 
       <h2>Deltävlingar</h2>
       {events.length === 0 ? (
-        <p>Inga deltävlingar.</p>
+        <p>Inga deltävlingar hittades.</p>
       ) : (
         <ul>
           {events.map((name, i) => (
