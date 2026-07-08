@@ -1,5 +1,4 @@
-const BASE_URL = "https://bentus-touren.onrender.com";
-
+const BASE_URL = "https://bentus-touren-backend-1-cfci.onrender.com";
 export async function getEvents() {
   const res = await fetch(`${BASE_URL}/events`);
   return res.json();
