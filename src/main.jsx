@@ -3,7 +3,7 @@ import Events from "./pages/Events";
 import Event from "./pages/Event";
 import Tour from "./pages/Tour";
 import Dashboard from "./pages/Dashboard";
-
+import "./App.css";
 export default function App() {
   return (
     <BrowserRouter>
