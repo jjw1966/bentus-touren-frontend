@@ -1,9 +1,10 @@
-const BASE_URL = "/api";
+const BASE_URL = "https://bentus-touren-backend-1-cfci.onrender.com";
 
 async function fetchJSON(url) {
   try {
     const res = await fetch(url, {
       method: "GET",
+      mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
@@ -13,11 +14,9 @@ async function fetchJSON(url) {
       throw new Error(`Fetch failed: ${res.status}`);
     }
 
-    const data = await res.json();
-    console.log("FetchJSON:", url, data);
-    return data;
+    return await res.json();
   } catch (err) {
-    console.error("FetchJSON‑fel:", err);
+    console.error("FetchJSON error:", err);
     throw err;
   }
 }
