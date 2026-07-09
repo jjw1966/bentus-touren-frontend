@@ -1,116 +1,141 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getEvent, getNH, getLD } from "../api";
 
 export default function Event() {
-  const { name } = useParams();
-
-  const [main, setMain] = useState([]);
-  const [teams, setTeams] = useState([]);
-  const [nh, setNh] = useState([]);
-  const [ld, setLd] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { name } = useParams(); // Hämtar t.ex. "Sura" från URL
+  const [eventData, setEventData] = useState(null);
+  const [backendStatus, setBackendStatus] = useState("Kontrollerar...");
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
-    async function load() {
-      try {
-        const eventData = await getEvent(name);
-        const nhData = await getNH(name);
-        const ldData = await getLD(name);
-
-        setMain(eventData.main || []);
-        setTeams(eventData.teams || []);
-        setNh(nhData.nh || []);
-        setLd(ldData.ld || []);
-      } catch (err) {
-        console.error("Fel vid hämtning:", err);
-        setError("Kunde inte hämta deltävlingen.");
-      }
-      setLoading(false);
-    }
-    load();
+    // 🟩 Hämta data för vald deltävling
+    fetch(`https://bentus-touren-backend-1-cfci.onrender.com/event/${name}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Kunde inte hämta deltävlingen.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Data för event:", data);
+        setEventData(data);
+        setBackendStatus("Backend OK");
+      })
+      .catch((error) => {
+        console.error("Fel vid hämtning:", error);
+        setErrorMessage(error.message);
+        setBackendStatus("Backend FEL");
+      });
   }, [name]);
 
-  if (loading) return <div className="page"><p>Laddar...</p></div>;
-  if (error) return <div className="page"><p>{error}</p></div>;
-
   return (
-    <div className="page">
+    <div style={{ padding: "20px" }}>
       <h1>{name}</h1>
 
-      <h2>Huvudtabell</h2>
-      {main.length === 0 ? (
-        <p>Ingen data.</p>
-      ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Plac</th><th>Spelare</th><th>HCP</th><th>PB</th>
-              <th>NH</th><th>LD</th><th>Bonus</th><th>Tot</th><th>Tourpoäng</th>
-            </tr>
-          </thead>
-          <tbody>
-            {main.map((row, i) => (
-              <tr key={i}>
-                <td>{row.Plac}</td>
-                <td>{row.Spelare}</td>
-                <td>{row.HCP}</td>
-                <td>{row.PB}</td>
-                <td>{row.NH}</td>
-                <td>{row.LD}</td>
-                <td>{row.Bonus}</td>
-                <td>{row.Tot}</td>
-                <td>{row.Tourpoäng}</td>
+      {/* 🟩 Statusindikator */}
+      <div
+        style={{
+          padding: "10px",
+          marginBottom: "20px",
+          borderRadius: "6px",
+          backgroundColor:
+            backendStatus === "Backend OK" ? "#d4f8d4" : "#f8d4d4",
+          color: backendStatus === "Backend OK" ? "#0a7a0a" : "#7a0a0a",
+          fontWeight: "bold",
+        }}
+      >
+        {backendStatus}
+      </div>
+
+      {/* 🟩 Felmeddelande */}
+      {errorMessage && (
+        <div
+          style={{
+            backgroundColor: "#ffe0e0",
+            color: "#7a0a0a",
+            padding: "10px",
+            borderRadius: "6px",
+            marginBottom: "20px",
+          }}
+        >
+          {errorMessage}
+        </div>
+      )}
+
+      {/* 🟩 Visa huvudtabell */}
+      {eventData && eventData.main && eventData.main.length > 0 && (
+        <div style={{ marginBottom: "30px" }}>
+          <h2>Huvudtabell</h2>
+          <table
+            style={{
+              width: "100%",
+              borderCollapse: "collapse",
+              backgroundColor: "#f9f9f9",
+            }}
+          >
+            <thead>
+              <tr style={{ backgroundColor: "#e0e0e0" }}>
+                <th>Plac</th>
+                <th>Spelare</th>
+                <th>HCP</th>
+                <th>PB</th>
+                <th>NH</th>
+                <th>LD</th>
+                <th>Bonus</th>
+                <th>Tot</th>
+                <th>Tourpoäng</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {eventData.main.map((row, index) => (
+                <tr key={index}>
+                  <td>{row.Plac}</td>
+                  <td>{row.Spelare}</td>
+                  <td>{row.HCP}</td>
+                  <td>{row.PB}</td>
+                  <td>{row.NH}</td>
+                  <td>{row.LD}</td>
+                  <td>{row.Bonus}</td>
+                  <td>{row.Tot}</td>
+                  <td>{row.Tourpoäng}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
 
-      <h2>Lagresultat</h2>
-      {teams.length === 0 ? (
-        <p>Inga lagresultat.</p>
-      ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Lag</th><th>Resultat</th><th>Plac</th><th>Bonus</th>
-            </tr>
-          </thead>
-          <tbody>
-            {teams.map((row, i) => (
-              <tr key={i}>
-                <td>{row.Lag}</td>
-                <td>{row.Resultat}</td>
-                <td>{row.Plac}</td>
-                <td>{row.Bonus}</td>
+      {/* 🟩 Visa lagtabell */}
+      {eventData && eventData.teams && eventData.teams.length > 0 && (
+        <div>
+          <h2>Lagresultat</h2>
+          <table
+            style={{
+              width: "100%",
+              borderCollapse: "collapse",
+              backgroundColor: "#f9f9f9",
+            }}
+          >
+            <thead>
+              <tr style={{ backgroundColor: "#e0e0e0" }}>
+                <th>Lag</th>
+                <th>Resultat</th>
+                <th>Plac</th>
+                <th>Bonus</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-
-      <h2>Närmast hål</h2>
-      {nh.length === 0 ? (
-        <p>Ingen NH-data.</p>
-      ) : (
-        <ul>
-          {nh.map((row, i) => (
-            <li key={i}>{row.Hål}: {row.Vinnare}</li>
-          ))}
-        </ul>
-      )}
-
-      <h2>Längsta drive</h2>
-      {ld.length === 0 ? (
-        <p>Ingen LD-data.</p>
-      ) : (
-        <ul>
-          {ld.map((row, i) => (
-            <li key={i}>{row.Hål}: {row.Vinnare}</li>
-          ))}
-        </ul>
+            </thead>
+            <tbody>
+              {eventData.teams.map((row, index) => (
+                <tr key={index}>
+                  <td>{row.Lag}</td>
+                  <td>{row.Resultat}</td>
+                  <td>{row.Plac}</td>
+                  <td>{row.Bonus}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );
