@@ -1,65 +1,102 @@
 import React, { useEffect, useState } from "react";
 
 export default function Dashboard() {
-  const [events, setEvents] = useState([]);
-  const [backendStatus, setBackendStatus] = useState("Kontrollerar...");
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // 🟩 TEST 1 — Logga data i konsolen
-    fetch("https://bentus-touren-backend-1-cfci.onrender.com/events")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Backend svarade inte OK");
-        }
-        return response.json();
+    fetch("https://bentus-touren-backend-1-cfci.onrender.com/dashboard")
+      .then((res) => {
+        if (!res.ok) throw new Error("Kunde inte hämta Dashboard-data");
+        return res.json();
       })
-      .then((data) => {
-        console.log("Data från backend:", data);
-
-        // 🟩 TEST 2 — Visa statusindikator
-        setBackendStatus("Backend OK");
-
-        // Spara data i state så Dashboard kan använda det
-        setEvents(data);
-      })
-      .catch((error) => {
-        console.error("Fel vid hämtning:", error);
-        setBackendStatus("Backend FEL");
-      });
+      .then((json) => setData(json))
+      .catch((err) => setError(err.message));
   }, []);
+
+  if (error) {
+    return (
+      <div style={{ padding: "20px", color: "#7a0a0a" }}>
+        <h1>Dashboard</h1>
+        <p style={{ backgroundColor: "#ffe0e0", padding: "10px", borderRadius: "6px" }}>
+          Fel: {error}
+        </p>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div style={{ padding: "20px" }}>
+        <h1>Dashboard</h1>
+        <p>Laddar data...</p>
+      </div>
+    );
+  }
+
+  const card = {
+    padding: "15px",
+    marginBottom: "20px",
+    borderRadius: "8px",
+    backgroundColor: "#f9f9f9",
+    boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
+  };
+
+  const table = {
+    width: "100%",
+    borderCollapse: "collapse"
+  };
+
+  const th = {
+    backgroundColor: "#e0e0e0",
+    padding: "8px",
+    textAlign: "left"
+  };
+
+  const td = {
+    padding: "8px",
+    borderBottom: "1px solid #ddd"
+  };
+
+  const renderTable = (title, rows, columns) => (
+    <div style={card}>
+      <h2>{title}</h2>
+      <table style={table}>
+        <thead>
+          <tr>
+            {columns.map((c) => (
+              <th key={c} style={th}>{c}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, i) => (
+            <tr key={i}>
+              {columns.map((c) => {
+                const key = c.toLowerCase();
+                return (
+                  <td key={c} style={td}>
+                    {row[key] !== undefined ? row[key] : ""}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 
   return (
     <div style={{ padding: "20px" }}>
       <h1>Dashboard</h1>
 
-      {/* 🟩 Statusindikator */}
-      <div
-        style={{
-          padding: "10px",
-          marginBottom: "20px",
-          borderRadius: "6px",
-          backgroundColor:
-            backendStatus === "Backend OK" ? "#d4f8d4" : "#f8d4d4",
-          color: backendStatus === "Backend OK" ? "#0a7a0a" : "#7a0a0a",
-          fontWeight: "bold",
-        }}
-      >
-        {backendStatus}
-      </div>
-
-      {/* 🟩 Visa event-listan om den finns */}
-      {events.length > 0 ? (
-        <div>
-          <h2>Deltävlingar</h2>
-          <ul>
-            {events.map((event) => (
-              <li key={event}>{event}</li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <p>Inga event hämtade ännu...</p>
-      )}
+      {renderTable("Topp 5", data.topp5, ["Plac", "Spelare", "Poang"])}
+      {renderTable("Spelade rundor", data.spelade, ["Plac", "Spelare", "Antal"])}
+      {renderTable("Närmast hål (NH)", data.nh, ["Plac", "Spelare", "Nh"])}
+      {renderTable("Längsta drive (LD)", data.ld, ["Plac", "Spelare", "Ld"])}
+      {renderTable("Deltävlingsvinster", data.vinster, ["Plac", "Spelare", "Vinster"])}
+      {renderTable("Landskamper", data.landskamper, ["Plac", "Lag", "Vinster", "Poang"])}
     </div>
   );
 }
