@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-export default function Tourställning() {
+export default function Tour() {
   const [tourData, setTourData] = useState([]);
   const [backendStatus, setBackendStatus] = useState("Kontrollerar...");
   const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
-    // 🟩 Hämta tourställning från backend
     fetch("https://bentus-touren-backend-1-cfci.onrender.com/tour")
       .then((response) => {
         if (!response.ok) {
@@ -25,6 +24,24 @@ export default function Tourställning() {
         setBackendStatus("Backend FEL");
       });
   }, []);
+
+  // 🟩 Top-3 logik
+  const top3 = tourData.slice(0, 3);
+
+  const medalStyle = {
+    fontSize: "28px",
+    marginRight: "10px",
+  };
+
+  const cardStyle = {
+    padding: "15px",
+    borderRadius: "8px",
+    backgroundColor: "#f9f9f9",
+    marginBottom: "15px",
+    display: "flex",
+    alignItems: "center",
+    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+  };
 
   return (
     <div style={{ padding: "20px" }}>
@@ -57,6 +74,45 @@ export default function Tourställning() {
           }}
         >
           {errorMessage}
+        </div>
+      )}
+
+      {/* 🟩 Top-3 sektion */}
+      {top3.length > 0 && (
+        <div style={{ marginBottom: "30px" }}>
+          <h2>Top 3</h2>
+
+          {top3.map((row, index) => {
+            const medal =
+              index === 0 ? "🥇" : index === 1 ? "🥈" : "🥉";
+
+            const bg =
+              index === 0
+                ? "#fff7d1"
+                : index === 1
+                ? "#e3e3e3"
+                : "#f7e2d1";
+
+            return (
+              <div
+                key={index}
+                style={{
+                  ...cardStyle,
+                  backgroundColor: bg,
+                }}
+              >
+                <span style={medalStyle}>{medal}</span>
+                <div>
+                  <div style={{ fontSize: "20px", fontWeight: "bold" }}>
+                    {row.Spelare}
+                  </div>
+                  <div style={{ fontSize: "16px" }}>
+                    Totalpoäng: <strong>{row.Totalpoäng}</strong>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
 
