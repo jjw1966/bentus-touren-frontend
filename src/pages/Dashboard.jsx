@@ -106,12 +106,13 @@ export default function Dashboard() {
     <div style={{ padding: "20px" }}>
       <h1>Dashboard</h1>
 
-      {renderTable("Topp 5", data.topp5, ["Plac", "Spelare", "Poang"])}
-      {renderTable("Spelade rundor", data.spelade, ["Plac", "Spelare", "Antal"])}
-      {renderTable("Närmast hål (NH)", data.nh, ["Plac", "Spelare", "Nh"])}
-      {renderTable("Längsta drive (LD)", data.ld, ["Plac", "Spelare", "Ld"])}
-      {renderTable("Deltävlingsvinster", data.vinster, ["Plac", "Spelare", "Vinster"])}
-      {renderTable("Landskamper", data.landskamper, ["Plac", "Lag", "Vinster", "Poang"])}
+      {renderTable("Topp 5", data.topp5, ["Placering", "Spelare", "Tourpoäng"])}
+      {renderTable("Närmast hål (NH)", data.nh, ["Placering", "Spelare", "Nh"])}
+      {renderTable("Längsta drive (LD)", data.ld, ["Placering", "Spelare", "Ld"])}
+      {renderTable("Spelade rundor", data.spelade, ["Placering", "Spelare", "Antal"])}
+      {renderTable("Deltävlingsvinster", data.vinster, ["Placering", "Spelare", "Vinster"])}
+      {renderTable("Landskamper", data.landskamper, ["Placering", "Lag", "Vinster", "Poäng"])}
+      {renderTable("Deltävlingar", data.deltävlingar, ["Datum", "Klubb"])}
     </div>
   );
 }
