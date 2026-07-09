@@ -1,51 +1,100 @@
-import { useEffect, useState } from "react";
-import { getTour } from "../api";
+import React, { useEffect, useState } from "react";
 
-export default function Tour() {
-  const [tour, setTour] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+export default function Tourställning() {
+  const [tourData, setTourData] = useState([]);
+  const [backendStatus, setBackendStatus] = useState("Kontrollerar...");
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
-    async function load() {
-      try {
-        const data = await getTour();
-        setTour(data || []);
-      } catch (err) {
-        console.error("Tour error:", err);
-        setError("Kunde inte hämta tourställningen.");
-      }
-      setLoading(false);
-    }
-    load();
+    // 🟩 Hämta tourställning från backend
+    fetch("https://bentus-touren-backend-1-cfci.onrender.com/tour")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Kunde inte hämta tourställningen.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Tourställning:", data);
+        setTourData(data);
+        setBackendStatus("Backend OK");
+      })
+      .catch((error) => {
+        console.error("Fel vid hämtning:", error);
+        setErrorMessage(error.message);
+        setBackendStatus("Backend FEL");
+      });
   }, []);
 
-  if (loading) return <div className="page"><p>Laddar...</p></div>;
-  if (error) return <div className="page"><p>{error}</p></div>;
-
   return (
-    <div className="page">
+    <div style={{ padding: "20px" }}>
       <h1>Tourställning</h1>
 
-      {tour.length === 0 ? (
-        <p>Ingen tourdata.</p>
-      ) : (
-        <table>
+      {/* 🟩 Statusindikator */}
+      <div
+        style={{
+          padding: "10px",
+          marginBottom: "20px",
+          borderRadius: "6px",
+          backgroundColor:
+            backendStatus === "Backend OK" ? "#d4f8d4" : "#f8d4d4",
+          color: backendStatus === "Backend OK" ? "#0a7a0a" : "#7a0a0a",
+          fontWeight: "bold",
+        }}
+      >
+        {backendStatus}
+      </div>
+
+      {/* 🟩 Felmeddelande */}
+      {errorMessage && (
+        <div
+          style={{
+            backgroundColor: "#ffe0e0",
+            color: "#7a0a0a",
+            padding: "10px",
+            borderRadius: "6px",
+            marginBottom: "20px",
+          }}
+        >
+          {errorMessage}
+        </div>
+      )}
+
+      {/* 🟩 Tourtabell */}
+      {tourData && tourData.length > 0 ? (
+        <table
+          style={{
+            width: "100%",
+            borderCollapse: "collapse",
+            backgroundColor: "#f9f9f9",
+          }}
+        >
           <thead>
-            <tr>
-              <th>Spelare</th>
-              <th>Totalpoäng</th>
+            <tr style={{ backgroundColor: "#e0e0e0" }}>
+              <th style={{ textAlign: "left", padding: "8px" }}>Plac</th>
+              <th style={{ textAlign: "left", padding: "8px" }}>Spelare</th>
+              <th style={{ textAlign: "right", padding: "8px" }}>Totalpoäng</th>
             </tr>
           </thead>
           <tbody>
-            {tour.map((row, i) => (
-              <tr key={i}>
-                <td>{row.Spelare}</td>
-                <td>{row.Totalpoäng}</td>
+            {tourData.map((row, index) => (
+              <tr
+                key={index}
+                style={{
+                  backgroundColor: index % 2 === 0 ? "#ffffff" : "#f2f2f2",
+                }}
+              >
+                <td style={{ padding: "8px" }}>{index + 1}</td>
+                <td style={{ padding: "8px" }}>{row.Spelare}</td>
+                <td style={{ padding: "8px", textAlign: "right" }}>
+                  {row.Totalpoäng}
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
+      ) : (
+        <p>Ingen tourdata tillgänglig ännu...</p>
       )}
     </div>
   );
