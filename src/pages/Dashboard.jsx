@@ -1,90 +1,64 @@
-import { useEffect, useState } from "react";
-import { getEvents, getTour } from "../api";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 
 export default function Dashboard() {
-  console.log("Frontend version: 1.0.3");
-
-  const [events, setEvents] = useState(null);
-  const [tour, setTour] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [events, setEvents] = useState([]);
+  const [backendStatus, setBackendStatus] = useState("Kontrollerar...");
 
   useEffect(() => {
-    async function load() {
-      try {
-        const eventData = await getEvents();
-        const tourData = await getTour();
+    // 🟩 TEST 1 — Logga data i konsolen
+    fetch("https://bentus-touren-backend-1-cfci.onrender.com/events")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Backend svarade inte OK");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Data från backend:", data);
 
-        console.log("Events:", eventData);
-        console.log("Tour:", tourData);
+        // 🟩 TEST 2 — Visa statusindikator
+        setBackendStatus("Backend OK");
 
-        setEvents(eventData);
-        setTour(tourData);
-      } catch (err) {
-        console.error("Dashboard error:", err);
-        setError("Kunde inte hämta dashboard-data.");
-      } finally {
-        setLoading(false);
-      }
-    }
-    load();
+        // Spara data i state så Dashboard kan använda det
+        setEvents(data);
+      })
+      .catch((error) => {
+        console.error("Fel vid hämtning:", error);
+        setBackendStatus("Backend FEL");
+      });
   }, []);
 
-  if (loading) return <div className="page"><p>Laddar...</p></div>;
-
-  if (error) {
-    return (
-      <div className="page">
-        <h1>Fel</h1>
-        <p>{error}</p>
-
-        <div style={{ background: "#fee", padding: "10px", marginTop: "20px" }}>
-          <p style={{ color: "red" }}>Frontend version: 1.0.3</p>
-          <p><strong>Events:</strong> {JSON.stringify(events)}</p>
-          <p><strong>Tour:</strong> {JSON.stringify(tour)}</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="page">
+    <div style={{ padding: "20px" }}>
       <h1>Dashboard</h1>
 
-      <h2>Deltävlingar</h2>
-      {(!events || events.length === 0) ? (
-        <p>Inga deltävlingar hittades.</p>
-      ) : (
-        <ul>
-          {events.map((name, i) => (
-            <li key={i}>
-              <Link to={`/event/${name}`}>{name}</Link>
-            </li>
-          ))}
-        </ul>
-      )}
+      {/* 🟩 Statusindikator */}
+      <div
+        style={{
+          padding: "10px",
+          marginBottom: "20px",
+          borderRadius: "6px",
+          backgroundColor:
+            backendStatus === "Backend OK" ? "#d4f8d4" : "#f8d4d4",
+          color: backendStatus === "Backend OK" ? "#0a7a0a" : "#7a0a0a",
+          fontWeight: "bold",
+        }}
+      >
+        {backendStatus}
+      </div>
 
-      <h2>Tourställning</h2>
-      {(!tour || tour.length === 0) ? (
-        <p>Ingen tourdata.</p>
-      ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Spelare</th>
-              <th>Totalpoäng</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tour.map((row, i) => (
-              <tr key={i}>
-                <td>{row.Spelare}</td>
-                <td>{row.Totalpoäng}</td>
-              </tr>
+      {/* 🟩 Visa event-listan om den finns */}
+      {events.length > 0 ? (
+        <div>
+          <h2>Deltävlingar</h2>
+          <ul>
+            {events.map((event) => (
+              <li key={event}>{event}</li>
             ))}
-          </tbody>
-        </table>
+          </ul>
+        </div>
+      ) : (
+        <p>Inga event hämtade ännu...</p>
       )}
     </div>
   );
