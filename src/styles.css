@@ -1,14 +1,32 @@
+:root {
+    --bg: #f5f5f5;
+    --text: #222;
+    --accent: #004aad;
+    --card-bg: #fff;
+    --shadow: rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #121212;
+        --text: #eaeaea;
+        --accent: #5da0ff;
+        --card-bg: #1e1e1e;
+        --shadow: rgba(255, 255, 255, 0.05);
+    }
+}
+
 body {
     margin: 0;
     font-family: system-ui, sans-serif;
-    background: #f5f5f5;
-    color: #222;
+    background: var(--bg);
+    color: var(--text);
 }
 
 header {
     text-align: center;
     padding: 1.5rem;
-    background: #004aad;
+    background: var(--accent);
     color: white;
 }
 
@@ -25,16 +43,21 @@ main {
 
 /* Kort */
 .card {
-    background: white;
+    background: var(--card-bg);
     padding: 1rem;
     border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 6px var(--shadow);
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
 }
 
 .card h2 {
     margin-top: 0;
     font-size: 1.3rem;
-    color: #004aad;
+    color: var(--accent);
 }
 
 /* Listor */
@@ -45,7 +68,15 @@ main {
 
 .card li {
     padding: 0.4rem 0;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #4442;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.9rem;
+    opacity: 0.7;
 }
 
 /* Mobil */
