@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import "./styles.css";
 
 export default function Dashboard() {
   const [data, setData] = useState(null);
@@ -9,7 +8,7 @@ export default function Dashboard() {
     fetch("https://bentus-touren-backend-1-cfci.onrender.com/dashboard")
       .then(res => res.json())
       .then(setData)
-      .catch(err => setError(err));
+      .catch(setError);
   }, []);
 
   if (error) return <p style={{ color: "red" }}>Fel vid hämtning av data.</p>;
@@ -28,12 +27,12 @@ export default function Dashboard() {
 
   return (
     <main>
-      {renderList("Topp 5", data.topp5, p => `${p.spelare} – ${p.tourpoäng} poäng`)}
-      {renderList("Närmast hål", data.nh, p => `${p.spelare} – ${p.nh}`)}
-      {renderList("Längsta drive", data.ld, p => `${p.spelare} – ${p.ld}`)}
-      {renderList("Spelade rundor", data.spelade, p => `${p.spelare} – ${p.antal}`)}
+      {renderList("Topp 5", data.topp5, p => `${p.spelare} – ${p.tourpoäng} poäng`)}
+      {renderList("Närmast hål", data.nh, p => `${p.spelare} – ${p.nh}`)}
+      {renderList("Längsta drive", data.ld, p => `${p.spelare} – ${p.ld}`)}
+      {renderList("Spelade rundor", data.spelade, p => `${p.spelare} – ${p.antal}`)}
       {renderList("Deltävlingsvinster", data.vinster, p => `${p.spelare} – ${p.vinster}`)}
-      {renderList("Landskamper", data.landskamper, p => `${p.lag} – ${p.vinster} vinster (${p.poäng} poäng)`)}
+      {renderList("Landskamper", data.landskamper, p => `${p.lag} – ${p.vinster} vinster (${p.poäng} poäng)`)}
       {renderList("Deltävlingar", data.deltävlingar, p => `${p.datum} – ${p.klubb}`)}
     </main>
   );
