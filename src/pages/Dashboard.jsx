@@ -14,26 +14,48 @@ export default function Dashboard() {
   if (error) return <p style={{ color: "red" }}>Fel vid hämtning av data.</p>;
   if (!data) return <p>Laddar data...</p>;
 
-  const renderList = (title, items, formatter) => (
+  const renderTable = (title, items, columns) => (
     <div className="card">
       <h2>{title}</h2>
-      <ul>
-        {(items || []).map((item, i) => (
-          <li key={i}>{formatter(item)}</li>
+      <div className="table">
+        <div className="table-header">
+          {columns.map((col, i) => (
+            <div key={i} className="table-col">{col.header}</div>
+          ))}
+        </div>
+
+        {(items || []).map((item, index) => (
+          <div key={index} className="table-row">
+            {columns.map((col, i) => (
+              <div key={i} className="table-col">
+                {col.format(item, index)}
+              </div>
+            ))}
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 
   return (
     <main>
-      {renderList("Topp 5", data.topp5, p => `${p.spelare} – ${p.tourpoäng} poäng`)}
-      {renderList("Närmast hål", data.nh, p => `${p.spelare} – ${p.nh}`)}
-      {renderList("Längsta drive", data.ld, p => `${p.spelare} – ${p.ld}`)}
-      {renderList("Spelade rundor", data.spelade, p => `${p.spelare} – ${p.antal}`)}
-      {renderList("Deltävlingsvinster", data.vinster, p => `${p.spelare} – ${p.vinster}`)}
-      {renderList("Landskamper", data.landskamper, p => `${p.lag} – ${p.vinster} vinster (${p.poäng} poäng)`)}
-      {renderList("Deltävlingar", data.deltävlingar, p => `${p.datum} – ${p.klubb}`)}
+
+      {renderTable("Topp 5", data.topp5, [
+        { header: "Plac", format: (_, i) => i + 1 },
+        { header: "Spelare", format: p => p.spelare },
+        { header: "Poäng", format: p => p.tourpoäng }
+      ])}
+
+      {renderTable("Spelade rundor", data.spelade, [
+        { header: "Spelare", format: p => p.spelare },
+        { header: "Antal", format: p => p.antal }
+      ])}
+
+      {renderTable("Deltävlingar", data.deltävlingar, [
+        { header: "Datum", format: p => p.datum },
+        { header: "Klubb", format: p => p.klubb }
+      ])}
+
     </main>
   );
 }
