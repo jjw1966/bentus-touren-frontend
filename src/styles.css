@@ -23,7 +23,7 @@ main {
     gap: 1rem;
 }
 
-/* Responsiva kort */
+/* Kort */
 .card {
     background: white;
     padding: 1rem;
@@ -48,7 +48,7 @@ main {
     border-bottom: 1px solid #eee;
 }
 
-/* Mobilanpassning */
+/* Mobil */
 @media (max-width: 600px) {
     header h1 {
         font-size: 1.6rem;
