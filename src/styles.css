@@ -60,6 +60,9 @@ main {
   border-bottom: 2px solid var(--accent);
 }
 
-.table-col {
-  padding: 0.2rem 0;
+.table-row:nth-child(odd) {
+  background: rgba(0, 0, 0, 0.03);
 }
+
+.table-col {
+  padding: 0.2rem
