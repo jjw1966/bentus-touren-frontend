@@ -11,8 +11,8 @@ export default function Navbar() {
 
         <div className="nav-right">
           <Link to="/" className="nav-item">Dashboard</Link>
-          <Link to="/events" className="nav-item">Deltävlingar</Link>
           <Link to="/tour" className="nav-item">Tourställning</Link>
+          <Link to="/ombentus" className="nav-item">Om Bentus</Link>
         </div>
       </div>
     </nav>
