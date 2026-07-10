@@ -1,118 +1,43 @@
-import React, { useEffect, useState } from "react";
+const API_URL = "https://bentus-touren-backend-1-cfci.onrender.com/dashboard";
 
-export default function Dashboard() {
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+async function loadDashboard() {
+    const container = document.getElementById("dashboard");
 
-  useEffect(() => {
-    fetch("https://bentus-touren-backend-1-cfci.onrender.com/dashboard")
-      .then((res) => {
-        if (!res.ok) throw new Error("Kunde inte hämta Dashboard-data");
-        return res.json();
-      })
-      .then((json) => {
-        setData(json);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, []);
+    try {
+        const res = await fetch(API_URL);
+        const data = await res.json();
 
-  const card = {
-    padding: "15px",
-    marginBottom: "20px",
-    borderRadius: "8px",
-    backgroundColor: "#ffffff",
-    boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
-  };
+        renderSection(container, "Topp 5", data.topp5, p => `${p.spelare} – ${p.tourpoäng} poäng`);
+        renderSection(container, "Närmast hål", data.nh, p => `${p.spelare} – ${p.nh}`);
+        renderSection(container, "Längsta drive", data.ld, p => `${p.spelare} – ${p.ld}`);
+        renderSection(container, "Spelade rundor", data.spelade, p => `${p.spelare} – ${p.antal}`);
+        renderSection(container, "Deltävlingsvinster", data.vinster, p => `${p.spelare} – ${p.vinster}`);
+        renderSection(container, "Landskamper", data.landskamper, p => `${p.lag} – ${p.vinster} vinster (${p.poäng} poäng)`);
+        renderSection(container, "Deltävlingar", data.deltävlingar, p => `${p.datum} – ${p.klubb}`);
 
-  const table = {
-    width: "100%",
-    borderCollapse: "collapse"
-  };
-
-  const th = {
-    backgroundColor: "#e0e0e0",
-    padding: "8px",
-    textAlign: "left"
-  };
-
-  const td = {
-    padding: "8px",
-    borderBottom: "1px solid #ddd"
-  };
-
-  const renderTable = (title, rows, columns) => (
-    <div style={card}>
-      <h2 style={{ color: "#1a73e8" }}>{title}</h2>
-      <table style={table}>
-        <thead>
-          <tr>
-            {columns.map((c) => (
-              <th key={c} style={th}>{c}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.length === 0 ? (
-            <tr>
-              <td colSpan={columns.length} style={{ padding: "10px", textAlign: "center", color: "#777" }}>
-                Ingen data hittades
-              </td>
-            </tr>
-          ) : (
-            rows.map((row, i) => (
-              <tr key={i}>
-                {columns.map((c) => {
-                  const key = c.toLowerCase();
-                  return (
-                    <td key={c} style={td}>
-                      {row[key] !== undefined ? row[key] : ""}
-                    </td>
-                  );
-                })}
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
-    </div>
-  );
-
-  if (loading) {
-    return (
-      <div style={{ padding: "20px" }}>
-        <h1>Dashboard</h1>
-        <p>Laddar data från Excel...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div style={{ padding: "20px", color: "#7a0a0a" }}>
-        <h1>Dashboard</h1>
-        <p style={{ backgroundColor: "#ffe0e0", padding: "10px", borderRadius: "6px" }}>
-          Fel: {error}
-        </p>
-      </div>
-    );
-  }
-
-  return (
-    <div style={{ padding: "20px" }}>
-      <h1>Dashboard</h1>
-
-      {renderTable("Topp 5", data.topp5, ["Placering", "Spelare", "Tourpoäng"])}
-      {renderTable("Närmast hål (NH)", data.nh, ["Placering", "Spelare", "Nh"])}
-      {renderTable("Längsta drive (LD)", data.ld, ["Placering", "Spelare", "Ld"])}
-      {renderTable("Spelade rundor", data.spelade, ["Placering", "Spelare", "Antal"])}
-      {renderTable("Deltävlingsvinster", data.vinster, ["Placering", "Spelare", "Vinster"])}
-      {renderTable("Landskamper", data.landskamper, ["Placering", "Lag", "Vinster", "Poäng"])}
-      {renderTable("Deltävlingar", data.deltävlingar, ["Datum", "Klubb"])}
-    </div>
-  );
+    } catch (err) {
+        container.innerHTML = `<p style="color:red;">Fel vid hämtning av data.</p>`;
+        console.error(err);
+    }
 }
+
+function renderSection(container, title, items, formatter) {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    const h2 = document.createElement("h2");
+    h2.textContent = title;
+    card.appendChild(h2);
+
+    const ul = document.createElement("ul");
+    items.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = formatter(item);
+        ul.appendChild(li);
+    });
+
+    card.appendChild(ul);
+    container.appendChild(card);
+}
+
+loadDashboard();
