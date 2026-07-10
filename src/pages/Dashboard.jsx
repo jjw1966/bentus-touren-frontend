@@ -1,43 +1,40 @@
-const API_URL = "https://bentus-touren-backend-1-cfci.onrender.com/dashboard";
+import { useEffect, useState } from "react";
+import "./styles.css";
 
-async function loadDashboard() {
-    const container = document.getElementById("dashboard");
+export default function Dashboard() {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
 
-    try {
-        const res = await fetch(API_URL);
-        const data = await res.json();
+  useEffect(() => {
+    fetch("https://bentus-touren-backend-1-cfci.onrender.com/dashboard")
+      .then(res => res.json())
+      .then(setData)
+      .catch(err => setError(err));
+  }, []);
 
-        renderSection(container, "Topp 5", data.topp5, p => `${p.spelare} – ${p.tourpoäng} poäng`);
-        renderSection(container, "Närmast hål", data.nh, p => `${p.spelare} – ${p.nh}`);
-        renderSection(container, "Längsta drive", data.ld, p => `${p.spelare} – ${p.ld}`);
-        renderSection(container, "Spelade rundor", data.spelade, p => `${p.spelare} – ${p.antal}`);
-        renderSection(container, "Deltävlingsvinster", data.vinster, p => `${p.spelare} – ${p.vinster}`);
-        renderSection(container, "Landskamper", data.landskamper, p => `${p.lag} – ${p.vinster} vinster (${p.poäng} poäng)`);
-        renderSection(container, "Deltävlingar", data.deltävlingar, p => `${p.datum} – ${p.klubb}`);
+  if (error) return <p style={{ color: "red" }}>Fel vid hämtning av data.</p>;
+  if (!data) return <p>Laddar data...</p>;
 
-    } catch (err) {
-        container.innerHTML = `<p style="color:red;">Fel vid hämtning av data.</p>`;
-        console.error(err);
-    }
+  const renderList = (title, items, formatter) => (
+    <div className="card">
+      <h2>{title}</h2>
+      <ul>
+        {items.map((item, i) => (
+          <li key={i}>{formatter(item)}</li>
+        ))}
+      </ul>
+    </div>
+  );
+
+  return (
+    <main>
+      {renderList("Topp 5", data.topp5, p => `${p.spelare} – ${p.tourpoäng} poäng`)}
+      {renderList("Närmast hål", data.nh, p => `${p.spelare} – ${p.nh}`)}
+      {renderList("Längsta drive", data.ld, p => `${p.spelare} – ${p.ld}`)}
+      {renderList("Spelade rundor", data.spelade, p => `${p.spelare} – ${p.antal}`)}
+      {renderList("Deltävlingsvinster", data.vinster, p => `${p.spelare} – ${p.vinster}`)}
+      {renderList("Landskamper", data.landskamper, p => `${p.lag} – ${p.vinster} vinster (${p.poäng} poäng)`)}
+      {renderList("Deltävlingar", data.deltävlingar, p => `${p.datum} – ${p.klubb}`)}
+    </main>
+  );
 }
-
-function renderSection(container, title, items, formatter) {
-    const card = document.createElement("div");
-    card.className = "card";
-
-    const h2 = document.createElement("h2");
-    h2.textContent = title;
-    card.appendChild(h2);
-
-    const ul = document.createElement("ul");
-    items.forEach(item => {
-        const li = document.createElement("li");
-        li.textContent = formatter(item);
-        ul.appendChild(li);
-    });
-
-    card.appendChild(ul);
-    container.appendChild(card);
-}
-
-loadDashboard();
