@@ -1,25 +1,16 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-
 import Dashboard from "./pages/Dashboard";
-import Events from "./pages/Events";
-import Deltavling from "./pages/Deltavling";
-import Tourstallning from "./pages/Tourstallning";
 
-export default function App() {
+function App() {
   return (
-    <BrowserRouter>
-      <Navbar />
-
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/events" element={<Events />} />
-        <Route path="/event/:name" element={<Deltavling />} />
-        <Route path="/tour" element={<Tourstallning />} />
-      </Routes>
-
-      <Footer />
-    </BrowserRouter>
+    <>
+      <header>
+        <h1>Bentus Touren 2026</h1>
+        <p className="subtitle">Dashboard</p>
+      </header>
+      <Dashboard />
+      <footer>© 2026 Bentus Touren</footer>
+    </>
   );
 }
+
+export default App;
