@@ -1,8 +1,8 @@
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Dashboard from "./pages/Dashboard";
-import Tour from "./pages/Tour";
-import OmBentus from "./pages/OmBentus";
+import Navbar from "./components/Navbar.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
+import Tour from "./pages/Tour.jsx";
+import OmBentus from "./pages/OmBentus.jsx";
 
 export default function App() {
   return (
