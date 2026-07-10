@@ -27,12 +27,12 @@ export default function Dashboard() {
 
   return (
     <main>
-      {renderList("Topp 5", data.topp5, p => `${p.spelare} – ${p.tourpoäng} poäng`)}
-      {renderList("Närmast hål", data.nh, p => `${p.spelare} – ${p.nh}`)}
-      {renderList("Längsta drive", data.ld, p => `${p.spelare} – ${p.ld}`)}
-      {renderList("Spelade rundor", data.spelade, p => `${p.spelare} – ${p.antal}`)}
+      {renderList("Topp 5", data.topp5, p => `${p.spelare} – ${p.tourpoäng} poäng`)}
+      {renderList("Närmast hål", data.nh, p => `${p.spelare} – ${p.nh}`)}
+      {renderList("Längsta drive", data.ld, p => `${p.spelare} – ${p.ld}`)}
+      {renderList("Spelade rundor", data.spelade, p => `${p.spelare} – ${p.antal}`)}
       {renderList("Deltävlingsvinster", data.vinster, p => `${p.spelare} – ${p.vinster}`)}
-      {renderList("Landskamper", data.landskamper, p => `${p.lag} – ${p.vinster} vinster (${p.poäng} poäng)`)}
+      {renderList("Landskamper", data.landskamper, p => `${p.lag} – ${p.vinster} vinster (${p.poäng} poäng)`)}
       {renderList("Deltävlingar", data.deltävlingar, p => `${p.datum} – ${p.klubb}`)}
     </main>
   );
