@@ -3,14 +3,9 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
+  base: "./", // viktigt för Render
   server: {
-    proxy: {
-      "/api": {
-        target: "https://bentus-touren-backend-1-cfci.onrender.com",
-        changeOrigin: true,
-        secure: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
-      },
-    },
-  },
+    port: 5173,
+    open: true
+  }
 });
